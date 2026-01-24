@@ -1,1 +1,11 @@
-# repo-template
+
+  # HRIS Mobile App UI
+
+  This is a code bundle for HRIS Mobile App UI. The original project is available at https://www.figma.com/design/870CbbFB04ih9GBEAg4wkW/HRIS-Mobile-App-UI.
+
+  ## Running the code
+
+  Run `npm i` to install the dependencies.
+
+  Run `npm run dev` to start the development server.
+  
