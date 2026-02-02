@@ -76,7 +76,7 @@ export function DocumentsPage() {
             <FolderOpen className="w-6 h-6 text-lime-600 dark:text-lime-400" />
           </div>
           <div>
-            <div className="text-zinc-900 dark:text-white font-medium">Dokumen Saya</div>
+            <div className="text-zinc-900 dark:text-white font-bold">Dokumen Saya</div>
             <div className="text-zinc-600 dark:text-zinc-400 text-sm">
               {documents.length} dokumen tersimpan
             </div>
@@ -120,7 +120,7 @@ export function DocumentsPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex-1">
-                    <div className="text-zinc-900 dark:text-white font-medium text-sm mb-1">
+                    <div className="text-zinc-900 dark:text-white font-bold text-sm mb-1">
                       {doc.title}
                     </div>
                     <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 text-xs">

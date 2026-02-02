@@ -171,7 +171,7 @@ export function HRDashboard() {
           <div className="p-5 border-b border-zinc-200 dark:border-zinc-800">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-zinc-900 dark:text-white font-semibold text-lg">Pending Approval</h2>
+                <h2 className="text-zinc-900 dark:text-white font-bold text-lg">Pending Approval</h2>
                 <p className="text-zinc-500 dark:text-zinc-400 text-sm">
                   {pendingApprovals.length} permintaan menunggu
                 </p>
@@ -190,10 +190,10 @@ export function HRDashboard() {
                     <div
                       className={`w-12 h-12 rounded-xl bg-gradient-to-br ${approval.color} flex items-center justify-center flex-shrink-0`}
                     >
-                      <span className="text-zinc-50 font-semibold">{approval.avatar}</span>
+                      <span className="text-zinc-50 font-bold">{approval.avatar}</span>
                     </div>
                     <div>
-                      <div className="text-zinc-900 dark:text-white font-medium mb-0.5">{approval.employee}</div>
+                      <div className="text-zinc-900 dark:text-white font-bold mb-0.5">{approval.employee}</div>
                       <div className="text-zinc-500 dark:text-zinc-400 text-sm">
                         {approval.department} • {approval.type}
                       </div>
@@ -202,7 +202,7 @@ export function HRDashboard() {
 
                   <div className="flex items-center gap-3">
                     <div className="text-right mr-4">
-                      <div className="text-zinc-900 dark:text-white text-sm font-medium">{approval.date}</div>
+                      <div className="text-zinc-900 dark:text-white text-sm font-bold">{approval.date}</div>
                       <div className="text-zinc-500 dark:text-zinc-400 text-xs">{approval.days}</div>
                     </div>
                     <button className="px-4 py-2 bg-lime-400 text-zinc-900 rounded-lg hover:bg-lime-500 transition-colors text-sm font-medium">
@@ -218,7 +218,7 @@ export function HRDashboard() {
         {/* Attendance Today */}
         <div className="bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800">
           <div className="p-5 border-b border-zinc-200 dark:border-zinc-800">
-            <h2 className="text-zinc-900 dark:text-white font-semibold text-lg mb-1">Kehadiran Hari Ini</h2>
+            <h2 className="text-zinc-900 dark:text-white font-bold text-lg mb-1">Kehadiran Hari Ini</h2>
             <p className="text-zinc-500 dark:text-zinc-400 text-sm">Status real-time</p>
           </div>
 
@@ -226,7 +226,7 @@ export function HRDashboard() {
             {attendanceToday.map((item, index) => (
               <div key={index}>
                 <div className="flex items-center justify-between mb-2">
-                  <div className="text-zinc-900 dark:text-white text-sm font-medium">{item.status}</div>
+                  <div className="text-zinc-900 dark:text-white text-sm font-bold">{item.status}</div>
                   <div className="text-zinc-500 dark:text-zinc-400 text-sm">
                     {item.count} ({item.percentage}%)
                   </div>
@@ -252,7 +252,7 @@ export function HRDashboard() {
       {/* Recent Activities */}
       <div className="bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800">
         <div className="p-5 border-b border-zinc-200 dark:border-zinc-800">
-          <h2 className="text-zinc-900 dark:text-white font-semibold text-lg">Aktivitas Terbaru</h2>
+          <h2 className="text-zinc-900 dark:text-white font-bold text-lg">Aktivitas Terbaru</h2>
         </div>
 
         <div className="divide-y divide-zinc-200 dark:divide-zinc-800">

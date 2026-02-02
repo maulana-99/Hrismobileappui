@@ -129,10 +129,10 @@ export function ReimbursePage() {
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-2xl p-4 relative overflow-hidden">
           <div
-            className="absolute inset-0 opacity-10"
+            className="absolute inset-0 opacity-50 bg-repeat mix-blend-overlay"
             style={{
-              backgroundImage:
-                'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)',
+              backgroundImage: 'url(/master%202.png)',
+              backgroundSize: '240px 240px',
             }}
           />
           <div className="relative z-10">
@@ -168,7 +168,7 @@ export function ReimbursePage() {
       {showForm && (
         <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl p-6 border border-zinc-200 dark:border-zinc-800/50 space-y-4">
           <div className="flex items-center justify-between mb-2">
-            <div className="text-zinc-900 dark:text-white font-medium">Form Reimburse</div>
+            <div className="text-zinc-900 dark:text-white font-bold">Form Reimburse</div>
             <button onClick={() => setShowForm(false)} className="text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300">
               <X className="w-5 h-5" />
             </button>
@@ -242,7 +242,7 @@ export function ReimbursePage() {
       <div>
         <div className="flex items-center gap-2 mb-4 px-1">
           <DollarSign className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-          <div className="text-zinc-900 dark:text-white text-sm">Riwayat Reimburse</div>
+          <div className="text-zinc-900 dark:text-white text-sm font-bold">Riwayat Reimburse</div>
         </div>
 
         <div className="space-y-3">

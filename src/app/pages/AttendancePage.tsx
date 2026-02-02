@@ -126,10 +126,10 @@ export function AttendancePage() {
       {/* Month Summary */}
       <div className="bg-gradient-to-br from-lime-400 to-emerald-400 rounded-3xl p-6 relative overflow-hidden">
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-50 bg-repeat mix-blend-overlay"
           style={{
-            backgroundImage:
-              'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)',
+            backgroundImage: 'url(/master%202.png)',
+            backgroundSize: '240px 240px',
           }}
         />
         <div className="relative z-10">
@@ -177,7 +177,7 @@ export function AttendancePage() {
       <div>
         <div className="flex items-center gap-2 mb-4 px-1">
           <Calendar className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-          <div className="text-zinc-900 dark:text-white text-sm">Riwayat Kehadiran</div>
+          <div className="text-zinc-900 dark:text-white text-sm font-bold">Riwayat Kehadiran</div>
         </div>
 
         <div className="space-y-3">
@@ -188,7 +188,7 @@ export function AttendancePage() {
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div>
-                  <div className="text-zinc-900 dark:text-white font-medium text-sm mb-0.5">
+                  <div className="text-zinc-900 dark:text-white font-bold text-sm mb-0.5">
                     {record.day}, {record.date}
                   </div>
                   <div className="text-zinc-600 dark:text-zinc-400 text-xs">{record.location}</div>
@@ -205,7 +205,7 @@ export function AttendancePage() {
                     <Clock className="w-3.5 h-3.5 text-zinc-500" />
                     <div className="text-zinc-500 text-xs">Masuk</div>
                   </div>
-                  <div className="text-zinc-900 dark:text-white font-medium text-sm">{record.checkIn}</div>
+                  <div className="text-zinc-900 dark:text-white font-bold text-sm">{record.checkIn}</div>
                 </div>
 
                 <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-3">
@@ -213,12 +213,12 @@ export function AttendancePage() {
                     <Clock className="w-3.5 h-3.5 text-zinc-500" />
                     <div className="text-zinc-500 text-xs">Keluar</div>
                   </div>
-                  <div className="text-zinc-900 dark:text-white font-medium text-sm">{record.checkOut}</div>
+                  <div className="text-zinc-900 dark:text-white font-bold text-sm">{record.checkOut}</div>
                 </div>
 
                 <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-3">
                   <div className="text-zinc-500 text-xs mb-1">Total</div>
-                  <div className="text-zinc-900 dark:text-white font-medium text-sm">{record.workHours}</div>
+                  <div className="text-zinc-900 dark:text-white font-bold text-sm">{record.workHours}</div>
                 </div>
               </div>
             </div>

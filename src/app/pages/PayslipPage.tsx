@@ -31,15 +31,15 @@ export function PayslipPage() {
       {/* Current Month Summary */}
       <div className="bg-gradient-to-br from-lime-400 to-emerald-400 rounded-3xl p-6 relative overflow-hidden">
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-50 bg-repeat mix-blend-overlay"
           style={{
-            backgroundImage:
-              'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)',
+            backgroundImage: 'url(/master%202.png)',
+            backgroundSize: '240px 240px',
           }}
         />
         <div className="relative z-10">
           <div className="text-zinc-900/60 text-sm mb-1">Gaji Bulan Ini</div>
-          <div className="text-zinc-900 text-3xl font-semibold mb-4">
+          <div className="text-zinc-900 text-3xl font-bold mb-4">
             {formatCurrency(currentPayslip.netSalary)}
           </div>
           <div className="flex items-center justify-between">
@@ -56,11 +56,11 @@ export function PayslipPage() {
 
       {/* Breakdown */}
       <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl p-6 border border-zinc-200 dark:border-zinc-800/50">
-        <div className="text-zinc-900 dark:text-white font-medium mb-4">Rincian Gaji</div>
+        <div className="text-zinc-900 dark:text-white font-bold mb-4">Rincian Gaji</div>
         <div className="space-y-3">
           <div className="flex items-center justify-between py-2">
             <div className="text-zinc-600 dark:text-zinc-400 text-sm">Gaji Pokok</div>
-            <div className="text-zinc-900 dark:text-white font-medium">
+            <div className="text-zinc-900 dark:text-white font-bold">
               {formatCurrency(currentPayslip.grossSalary)}
             </div>
           </div>
@@ -73,8 +73,8 @@ export function PayslipPage() {
           </div>
           <div className="h-px bg-zinc-200 dark:bg-zinc-800" />
           <div className="flex items-center justify-between py-2">
-            <div className="text-zinc-900 dark:text-white font-medium">Total Diterima</div>
-            <div className="text-lime-600 dark:text-lime-400 font-semibold text-lg">
+            <div className="text-zinc-900 dark:text-white font-bold">Total Diterima</div>
+            <div className="text-lime-600 dark:text-lime-400 font-bold text-lg">
               {formatCurrency(currentPayslip.netSalary)}
             </div>
           </div>
@@ -88,7 +88,7 @@ export function PayslipPage() {
 
       {/* History */}
       <div>
-        <div className="text-zinc-900 dark:text-white text-sm mb-4 px-1">Riwayat Slip Gaji</div>
+        <div className="text-zinc-900 dark:text-white text-sm font-bold mb-4 px-1">Riwayat Slip Gaji</div>
         <div className="space-y-3">
           {payslipHistory.map((item, index) => (
             <button
@@ -101,13 +101,13 @@ export function PayslipPage() {
                     <Eye className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
                   </div>
                   <div className="text-left">
-                    <div className="text-zinc-900 dark:text-white text-sm font-medium">{item.month}</div>
+                    <div className="text-zinc-900 dark:text-white text-sm font-bold">{item.month}</div>
                     <div className="text-zinc-600 dark:text-zinc-400 text-xs">{item.date}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <div className="text-zinc-900 dark:text-white font-medium text-sm">
+                    <div className="text-zinc-900 dark:text-white font-bold text-sm">
                       {formatCurrency(item.amount)}
                     </div>
                     <div className="text-lime-600 dark:text-lime-400 text-xs">{item.status}</div>

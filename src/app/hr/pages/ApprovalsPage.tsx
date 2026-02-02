@@ -206,10 +206,10 @@ export function ApprovalsPage() {
                   <div
                     className={`w-14 h-14 rounded-xl bg-gradient-to-br ${approval.employee.color} flex items-center justify-center flex-shrink-0`}
                   >
-                    <span className="text-zinc-50 font-semibold">{approval.employee.avatar}</span>
+                    <span className="text-zinc-50 font-bold">{approval.employee.avatar}</span>
                   </div>
                   <div>
-                    <h3 className="text-zinc-900 dark:text-white font-semibold text-lg mb-0.5">
+                    <h3 className="text-zinc-900 dark:text-white font-bold text-lg mb-0.5">
                       {approval.employee.name}
                     </h3>
                     <p className="text-zinc-500 dark:text-zinc-400 text-sm">
@@ -233,13 +233,13 @@ export function ApprovalsPage() {
                     <>
                       <div>
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Tanggal</div>
-                        <div className="text-zinc-900 dark:text-white font-medium">
+                        <div className="text-zinc-900 dark:text-white font-bold">
                           {approval.details.startDate} - {approval.details.endDate}
                         </div>
                       </div>
                       <div>
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Durasi</div>
-                        <div className="text-zinc-900 dark:text-white font-medium">{approval.details.days}</div>
+                        <div className="text-zinc-900 dark:text-white font-bold">{approval.details.days}</div>
                       </div>
                       <div className="col-span-2">
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Alasan</div>
@@ -258,7 +258,7 @@ export function ApprovalsPage() {
                       </div>
                       <div>
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Kategori</div>
-                        <div className="text-zinc-900 dark:text-white font-medium">{approval.details.category}</div>
+                        <div className="text-zinc-900 dark:text-white font-bold">{approval.details.category}</div>
                       </div>
                       <div className="col-span-2">
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Deskripsi</div>
@@ -266,7 +266,7 @@ export function ApprovalsPage() {
                       </div>
                       <div>
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Tanggal</div>
-                        <div className="text-zinc-900 dark:text-white font-medium">{approval.details.date}</div>
+                        <div className="text-zinc-900 dark:text-white font-bold">{approval.details.date}</div>
                       </div>
                       <div className="flex items-center">
                         <button className="flex items-center gap-2 text-lime-600 dark:text-lime-400 hover:text-lime-700 dark:hover:text-lime-300 text-sm font-medium">
@@ -281,13 +281,13 @@ export function ApprovalsPage() {
                     <>
                       <div>
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Tanggal & Waktu</div>
-                        <div className="text-zinc-900 dark:text-white font-medium">
+                        <div className="text-zinc-900 dark:text-white font-bold">
                           {approval.details.date} • {approval.details.time}
                         </div>
                       </div>
                       <div>
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Durasi</div>
-                        <div className="text-zinc-900 dark:text-white font-medium">{approval.details.duration}</div>
+                        <div className="text-zinc-900 dark:text-white font-bold">{approval.details.duration}</div>
                       </div>
                       <div className="col-span-2">
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs mb-1">Alasan</div>
@@ -333,7 +333,7 @@ export function ApprovalsPage() {
           <div className="w-16 h-16 bg-zinc-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-8 h-8 text-zinc-400" />
           </div>
-          <h3 className="text-zinc-900 dark:text-white font-semibold text-lg mb-2">Tidak ada permintaan pending</h3>
+          <h3 className="text-zinc-900 dark:text-white font-bold text-lg mb-2">Tidak ada permintaan pending</h3>
           <p className="text-zinc-500 dark:text-zinc-400">Semua permintaan sudah diproses</p>
         </div>
       )}

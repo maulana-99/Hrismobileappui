@@ -13,6 +13,7 @@ import { PermissionPage } from './pages/PermissionPage';
 import { ReimbursePage } from './pages/ReimbursePage';
 import { AttendancePage } from './pages/AttendancePage';
 import { NotificationPage } from './pages/NotificationPage';
+import { SettingsPage } from './pages/SettingsPage';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication state
@@ -63,7 +64,7 @@ export default function App() {
   if (!isAuthenticated) {
     return <LoginPage onLogin={handleLogin} onForgotPassword={handleForgotPassword} />;
   }
-  
+
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
@@ -88,6 +89,8 @@ export default function App() {
         return <AttendancePage />;
       case 'notifications':
         return <NotificationPage onBack={() => setCurrentPage('home')} />;
+      case 'settings':
+        return <SettingsPage />;
       default:
         return <HomePage onNavigate={setCurrentPage} />;
     }
@@ -117,6 +120,8 @@ export default function App() {
         return { greeting: '', name: 'Riwayat Absensi', subtitle: 'Kehadiran & Jam Kerja' };
       case 'notifications':
         return { greeting: '', name: 'Notifikasi', subtitle: 'Pemberitahuan & Pengingat' };
+      case 'settings':
+        return { greeting: '', name: 'Pengaturan', subtitle: 'Konfigurasi Aplikasi' };
       default:
         return { greeting: 'Selamat Pagi,', name: 'Budi Santoso', subtitle: 'Product Designer • Jakarta Office' };
     }
@@ -144,33 +149,52 @@ export default function App() {
       <div className="max-w-md mx-auto min-h-screen bg-zinc-50 dark:bg-[#0a0a0a]">
         {/* Header - Hide on notification page */}
         {!isNotificationPage && (
-          <header className="px-5 pt-12 pb-6">
+          <header className="px-5 pt-6 pb-6">
             <div className="flex items-center justify-between mb-8">
+              {/* Premium Menu Button */}
               <button
                 onClick={() => setIsSidePanelOpen(true)}
-                className="w-10 h-10 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                className="group relative w-11 h-11 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm hover:shadow-md dark:shadow-zinc-950/50"
               >
-                <Menu className="w-5 h-5 text-zinc-700 dark:text-zinc-400" />
+                {/* Subtle gradient border */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-zinc-300/50 to-transparent dark:from-zinc-700/50 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-[1px] rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900" />
+                <Menu className="relative w-5 h-5 text-zinc-600 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors" />
               </button>
-              <div className="flex gap-2">
-                <button 
-                  onClick={() => setCurrentPage('notifications')}
-                  className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all relative ${
-                    currentPage === 'notifications'
-                      ? 'bg-lime-600 dark:bg-lime-400 border-lime-600 dark:border-lime-400 shadow-lg shadow-lime-600/20 dark:shadow-lime-400/20'
-                      : 'bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+
+              {/* Premium Notification Button */}
+              <button
+                onClick={() => setCurrentPage('notifications')}
+                className={`group relative w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 ${currentPage === 'notifications'
+                  ? 'bg-gradient-to-br from-lime-400 to-emerald-500 shadow-lg shadow-lime-500/30'
+                  : 'bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 shadow-sm hover:shadow-md dark:shadow-zinc-950/50'
                   }`}
-                >
-                  <Bell className={`w-5 h-5 transition-colors ${
-                    currentPage === 'notifications'
-                      ? 'text-white dark:text-zinc-900'
-                      : 'text-zinc-700 dark:text-zinc-400'
+              >
+                {/* Gradient border effect */}
+                <div className={`absolute inset-0 rounded-2xl transition-opacity ${currentPage === 'notifications'
+                  ? 'bg-gradient-to-br from-lime-300/50 to-transparent opacity-100'
+                  : 'bg-gradient-to-br from-zinc-300/50 to-transparent dark:from-zinc-700/50 dark:to-transparent opacity-0 group-hover:opacity-100'
                   }`} />
-                  {currentPage !== 'notifications' && (
-                    <div className="absolute top-2 right-2 w-2 h-2 bg-lime-600 dark:bg-lime-400 rounded-full"></div>
-                  )}
-                </button>
-              </div>
+                <div className={`absolute inset-[1px] rounded-2xl ${currentPage === 'notifications'
+                  ? 'bg-gradient-to-br from-lime-400 to-emerald-500'
+                  : 'bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900'
+                  }`} />
+
+                <Bell className={`relative w-5 h-5 transition-all ${currentPage === 'notifications'
+                  ? 'text-white'
+                  : 'text-zinc-600 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white'
+                  }`} />
+
+                {/* Notification Badge with pulse animation */}
+                {currentPage !== 'notifications' && (
+                  <div className="absolute -top-0.5 -right-0.5">
+                    <span className="relative flex h-3.5 w-3.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lime-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-gradient-to-br from-lime-400 to-emerald-500 border-2 border-zinc-50 dark:border-zinc-900"></span>
+                    </span>
+                  </div>
+                )}
+              </button>
             </div>
 
             <div>
@@ -184,7 +208,7 @@ export default function App() {
         )}
 
         {/* Main Content */}
-        <div className={`px-5 ${isNotificationPage ? 'pt-12 pb-8' : 'pb-32'}`}>{renderPage()}</div>
+        <div className={`px-5 ${isNotificationPage ? 'pt-6 pb-8' : 'pb-32'}`}>{renderPage()}</div>
 
         {/* Bottom Navigation - Hide on notification page */}
         {!isNotificationPage && (
@@ -195,14 +219,12 @@ export default function App() {
                 className="flex flex-col items-center gap-1 py-2 px-4"
               >
                 <Briefcase
-                  className={`w-5 h-5 ${
-                    currentPage === 'home' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
-                  }`}
+                  className={`w-5 h-5 ${currentPage === 'home' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                    }`}
                 />
                 <span
-                  className={`text-[10px] ${
-                    currentPage === 'home' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
-                  }`}
+                  className={`text-[10px] ${currentPage === 'home' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                    }`}
                 >
                   Home
                 </span>
@@ -212,14 +234,12 @@ export default function App() {
                 className="flex flex-col items-center gap-1 py-2 px-4"
               >
                 <Calendar
-                  className={`w-5 h-5 ${
-                    currentPage === 'calendar' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
-                  }`}
+                  className={`w-5 h-5 ${currentPage === 'calendar' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                    }`}
                 />
                 <span
-                  className={`text-[10px] ${
-                    currentPage === 'calendar' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
-                  }`}
+                  className={`text-[10px] ${currentPage === 'calendar' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                    }`}
                 >
                   Kalender
                 </span>
@@ -229,14 +249,12 @@ export default function App() {
                 className="flex flex-col items-center gap-1 py-2 px-4"
               >
                 <FileText
-                  className={`w-5 h-5 ${
-                    currentPage === 'payslip' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
-                  }`}
+                  className={`w-5 h-5 ${currentPage === 'payslip' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                    }`}
                 />
                 <span
-                  className={`text-[10px] ${
-                    currentPage === 'payslip' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
-                  }`}
+                  className={`text-[10px] ${currentPage === 'payslip' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                    }`}
                 >
                   Slip Gaji
                 </span>
@@ -246,14 +264,12 @@ export default function App() {
                 className="flex flex-col items-center gap-1 py-2 px-4"
               >
                 <Users
-                  className={`w-5 h-5 ${
-                    currentPage === 'team' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
-                  }`}
+                  className={`w-5 h-5 ${currentPage === 'team' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                    }`}
                 />
                 <span
-                  className={`text-[10px] ${
-                    currentPage === 'team' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
-                  }`}
+                  className={`text-[10px] ${currentPage === 'team' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                    }`}
                 >
                   Tim
                 </span>

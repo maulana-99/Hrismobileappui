@@ -12,7 +12,8 @@ import {
 
 type AttendanceStatus =
   | "not-clocked-in"
-  | "clocked-in";
+  | "clocked-in"
+  | "clocked-out";
 
 interface AttendanceData {
   clockInTime?: string;
@@ -243,6 +244,15 @@ export function ClockInButton() {
           iconBg: "bg-zinc-900/10",
           iconColor: "text-zinc-900",
         };
+      case "clocked-out":
+        return {
+          text: "Sudah Clock Out",
+          action: "Selesai untuk hari ini",
+          gradient: "from-zinc-400 to-zinc-500",
+          icon: LogOut,
+          iconBg: "bg-zinc-900/10",
+          iconColor: "text-zinc-900",
+        };
     }
   };
 
@@ -273,18 +283,17 @@ export function ClockInButton() {
       <button
         onClick={handleClockAction}
         disabled={isDisabled || isAnimating}
-        className={`w-full bg-gradient-to-br ${config.gradient} rounded-3xl p-6 transition-all duration-300 group relative overflow-hidden ${
-          isDisabled
-            ? "opacity-75 cursor-not-allowed"
-            : "hover:brightness-105 active:scale-[0.98] hover:shadow-2xl hover:shadow-lime-400/20"
-        } ${isAnimating ? "animate-pulse-ring" : ""}`}
+        className={`w-full bg-gradient-to-br ${config.gradient} rounded-3xl p-6 transition-all duration-300 group relative overflow-hidden ${isDisabled
+          ? "opacity-75 cursor-not-allowed"
+          : "hover:brightness-105 active:scale-[0.98] hover:shadow-2xl hover:shadow-lime-400/20"
+          } ${isAnimating ? "animate-pulse-ring" : ""}`}
       >
         {/* Animated Background Pattern */}
         <div
-          className="absolute inset-0 opacity-30 transition-transform duration-700 group-hover:scale-110 bg-repeat mix-blend-overlay"
+          className="absolute inset-0 opacity-50 transition-transform duration-700 group-hover:scale-110 bg-repeat mix-blend-overlay"
           style={{
-            backgroundImage: 'url(https://i.imgur.com/ZnD74Tx.jpeg)',
-            backgroundSize: '128px 128px',
+            backgroundImage: 'url(/master%202.png)',
+            backgroundSize: '240px 240px',
           }}
         />
 
@@ -312,11 +321,10 @@ export function ClockInButton() {
               </div>
             </div>
             <div
-              className={`w-12 h-12 rounded-2xl ${config.iconBg} flex items-center justify-center transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 ${
-                status === "clocked-in"
-                  ? "animate-pulse-ring"
-                  : ""
-              }`}
+              className={`w-12 h-12 rounded-2xl ${config.iconBg} flex items-center justify-center transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 ${status === "clocked-in"
+                ? "animate-pulse-ring"
+                : ""
+                }`}
             >
               <Icon
                 className={`w-6 h-6 ${config.iconColor} ${isAnimating ? "animate-spin" : ""} transition-transform`}
@@ -334,29 +342,29 @@ export function ClockInButton() {
           {/* Clock In/Out Times */}
           {(attendanceData.clockInTime ||
             attendanceData.clockOutTime) && (
-            <div className="grid grid-cols-2 gap-3 mb-4 animate-slide-up">
-              {attendanceData.clockInTime && (
-                <div className="bg-zinc-900/10 rounded-2xl p-3 backdrop-blur-sm transform transition-all hover:scale-105">
-                  <div className="text-zinc-900/60 text-xs mb-1">
-                    Clock In
+              <div className="grid grid-cols-2 gap-3 mb-4 animate-slide-up">
+                {attendanceData.clockInTime && (
+                  <div className="bg-zinc-900/10 rounded-2xl p-3 backdrop-blur-sm transform transition-all hover:scale-105">
+                    <div className="text-zinc-900/60 text-xs mb-1">
+                      Clock In
+                    </div>
+                    <div className="text-zinc-900 font-medium tabular-nums">
+                      {attendanceData.clockInTime}
+                    </div>
                   </div>
-                  <div className="text-zinc-900 font-medium tabular-nums">
-                    {attendanceData.clockInTime}
+                )}
+                {attendanceData.clockOutTime && (
+                  <div className="bg-zinc-900/10 rounded-2xl p-3 backdrop-blur-sm transform transition-all hover:scale-105">
+                    <div className="text-zinc-900/60 text-xs mb-1">
+                      Clock Out
+                    </div>
+                    <div className="text-zinc-900 font-medium tabular-nums">
+                      {attendanceData.clockOutTime}
+                    </div>
                   </div>
-                </div>
-              )}
-              {attendanceData.clockOutTime && (
-                <div className="bg-zinc-900/10 rounded-2xl p-3 backdrop-blur-sm transform transition-all hover:scale-105">
-                  <div className="text-zinc-900/60 text-xs mb-1">
-                    Clock Out
-                  </div>
-                  <div className="text-zinc-900 font-medium tabular-nums">
-                    {attendanceData.clockOutTime}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
 
           {/* Footer Section */}
           <div className="flex items-center justify-between">
@@ -421,7 +429,7 @@ export function ClockInButton() {
             {/* Header */}
             <div className="bg-gradient-to-r from-lime-400 to-emerald-400 p-5 flex items-center justify-between">
               <div>
-                <h3 className="text-zinc-900 font-semibold text-lg">
+                <h3 className="text-zinc-900 font-bold text-lg">
                   {status === "not-clocked-in"
                     ? "Foto Clock In"
                     : "Foto Clock Out"}
@@ -509,11 +517,10 @@ export function ClockInButton() {
                   <button
                     onClick={takePhoto}
                     disabled={isSimulation}
-                    className={`flex-1 py-4 rounded-2xl font-medium transition-all flex items-center justify-center gap-2 ${
-                      isSimulation
-                        ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-400 cursor-not-allowed"
-                        : "bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-900 hover:brightness-110 active:scale-[0.98] shadow-lg hover:shadow-xl"
-                    }`}
+                    className={`flex-1 py-4 rounded-2xl font-medium transition-all flex items-center justify-center gap-2 ${isSimulation
+                      ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-400 cursor-not-allowed"
+                      : "bg-gradient-to-br from-lime-400 to-emerald-400 text-zinc-900 hover:brightness-110 active:scale-[0.98] shadow-lg hover:shadow-xl"
+                      }`}
                   >
                     <Camera className="w-5 h-5" />
                     {isSimulation

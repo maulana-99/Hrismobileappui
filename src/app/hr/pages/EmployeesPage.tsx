@@ -182,28 +182,28 @@ export function EmployeesPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-zinc-200 dark:border-zinc-800">
-                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
                   Karyawan
                 </th>
-                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
                   Jabatan
                 </th>
-                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
                   Departemen
                 </th>
-                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
                   Kontak
                 </th>
-                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
                   Bergabung
                 </th>
-                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
                   Kehadiran
                 </th>
-                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
                   Status
                 </th>
-                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-semibold uppercase tracking-wider">
+                <th className="text-left p-4 text-zinc-500 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
                   Aksi
                 </th>
               </tr>
@@ -216,10 +216,10 @@ export function EmployeesPage() {
                       <div
                         className={`w-10 h-10 rounded-xl bg-gradient-to-br ${employee.color} flex items-center justify-center flex-shrink-0`}
                       >
-                        <span className="text-zinc-50 font-semibold text-sm">{employee.avatar}</span>
+                        <span className="text-zinc-50 font-bold text-sm">{employee.avatar}</span>
                       </div>
                       <div>
-                        <div className="text-zinc-900 dark:text-white font-medium text-sm">{employee.name}</div>
+                        <div className="text-zinc-900 dark:text-white font-bold text-sm">{employee.name}</div>
                         <div className="text-zinc-500 dark:text-zinc-400 text-xs">{employee.id}</div>
                       </div>
                     </div>

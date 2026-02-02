@@ -100,10 +100,10 @@ export function PermissionPage() {
       {/* Info Card */}
       <div className="bg-gradient-to-br from-orange-400 to-orange-500 rounded-3xl p-6 relative overflow-hidden">
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-50 bg-repeat mix-blend-overlay"
           style={{
-            backgroundImage:
-              'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)',
+            backgroundImage: 'url(/master%202.png)',
+            backgroundSize: '240px 240px',
           }}
         />
         <div className="relative z-10">
@@ -113,7 +113,7 @@ export function PermissionPage() {
             </div>
             <div>
               <div className="text-zinc-50/80 text-sm">Izin Kerja</div>
-              <div className="text-zinc-50 text-xl font-semibold">Quick Request</div>
+              <div className="text-zinc-50 text-xl font-bold">Quick Request</div>
             </div>
           </div>
           <div className="text-zinc-50/80 text-sm">
@@ -135,7 +135,7 @@ export function PermissionPage() {
       {showForm && (
         <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl p-6 border border-zinc-200 dark:border-zinc-800/50 space-y-4">
           <div className="flex items-center justify-between mb-2">
-            <div className="text-zinc-900 dark:text-white font-medium">Form Izin Kerja</div>
+            <div className="text-zinc-900 dark:text-white font-bold">Form Izin Kerja</div>
             <button onClick={() => setShowForm(false)} className="text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300">
               <X className="w-5 h-5" />
             </button>
@@ -204,7 +204,7 @@ export function PermissionPage() {
       <div>
         <div className="flex items-center gap-2 mb-4 px-1">
           <Clock className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-          <div className="text-zinc-900 dark:text-white text-sm">Riwayat Izin</div>
+          <div className="text-zinc-900 dark:text-white text-sm font-bold">Riwayat Izin</div>
         </div>
 
         <div className="space-y-3">
@@ -230,11 +230,11 @@ export function PermissionPage() {
               <div className="flex items-center gap-4 mb-3">
                 <div>
                   <div className="text-zinc-500 dark:text-zinc-500 text-xs mb-0.5">Waktu</div>
-                  <div className="text-zinc-900 dark:text-white text-sm font-medium">{permission.time}</div>
+                  <div className="text-zinc-900 dark:text-white text-sm font-bold">{permission.time}</div>
                 </div>
                 <div>
                   <div className="text-zinc-500 dark:text-zinc-500 text-xs mb-0.5">Durasi</div>
-                  <div className="text-zinc-900 dark:text-white text-sm font-medium">{permission.duration}</div>
+                  <div className="text-zinc-900 dark:text-white text-sm font-bold">{permission.duration}</div>
                 </div>
               </div>
 

@@ -121,7 +121,7 @@ export function HRLayout({ children, currentPage, onNavigate }: HRLayoutProps) {
         {/* Top Bar */}
         <header className="h-16 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6">
           <div>
-            <h1 className="text-xl text-zinc-900 dark:text-white font-semibold">{pageInfo.title}</h1>
+            <h1 className="text-xl text-zinc-900 dark:text-white font-bold">{pageInfo.title}</h1>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">{pageInfo.subtitle}</p>
           </div>
 
@@ -145,11 +145,11 @@ export function HRLayout({ children, currentPage, onNavigate }: HRLayoutProps) {
             {/* User Avatar */}
             <div className="flex items-center gap-3 pl-3 border-l border-zinc-200 dark:border-zinc-800">
               <div className="text-right">
-                <div className="text-sm text-zinc-900 dark:text-white font-medium">Sarah Admin</div>
+                <div className="text-sm text-zinc-900 dark:text-white font-bold">Sarah Admin</div>
                 <div className="text-xs text-zinc-500 dark:text-zinc-400">HR Manager</div>
               </div>
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lime-400 to-emerald-400 flex items-center justify-center">
-                <span className="text-zinc-900 font-semibold text-sm">SA</span>
+                <span className="text-zinc-900 font-bold text-sm">SA</span>
               </div>
             </div>
           </div>

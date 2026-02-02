@@ -51,7 +51,7 @@ export function CalendarPage() {
       {/* Calendar */}
       <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl p-6 border border-zinc-200 dark:border-zinc-800/50">
         <div className="flex items-center justify-between mb-6">
-          <div className="text-zinc-900 dark:text-white font-medium">{currentMonth}</div>
+          <div className="text-zinc-900 dark:text-white font-bold">{currentMonth}</div>
           <div className="flex gap-2">
             <button className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
               <ChevronLeft className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
@@ -78,7 +78,7 @@ export function CalendarPage() {
               key={index}
               className={`aspect-square rounded-xl flex items-center justify-center text-sm relative transition-colors ${
                 item.isToday
-                  ? 'bg-lime-400 text-zinc-900 font-semibold'
+                  ? 'bg-lime-400 text-zinc-900 font-bold'
                   : item.isWeekend
                   ? 'text-zinc-400 dark:text-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                   : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
@@ -97,7 +97,7 @@ export function CalendarPage() {
       <div>
         <div className="flex items-center gap-2 mb-4 px-1">
           <CalendarIcon className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-          <div className="text-zinc-900 dark:text-white text-sm">Event Mendatang</div>
+          <div className="text-zinc-900 dark:text-white text-sm font-bold">Event Mendatang</div>
         </div>
 
         <div className="space-y-3">
@@ -113,7 +113,7 @@ export function CalendarPage() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <div className="text-zinc-900 dark:text-white text-sm font-medium mb-1">
+                      <div className="text-zinc-900 dark:text-white text-sm font-bold mb-1">
                         {event.title}
                       </div>
                       <div className="text-zinc-600 dark:text-zinc-400 text-xs">{event.time}</div>

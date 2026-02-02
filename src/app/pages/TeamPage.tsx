@@ -101,14 +101,14 @@ export function TeamPage() {
               <div
                 className={`flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br ${member.color} flex items-center justify-center`}
               >
-                <span className="text-white font-semibold">{member.avatar}</span>
+                <span className="text-white font-bold">{member.avatar}</span>
               </div>
 
               {/* Info */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div>
-                    <div className="text-zinc-900 dark:text-white font-medium">{member.name}</div>
+                    <div className="text-zinc-900 dark:text-white font-bold">{member.name}</div>
                     <div className="text-zinc-600 dark:text-zinc-400 text-sm">{member.role}</div>
                   </div>
                   <div className="px-2 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs">

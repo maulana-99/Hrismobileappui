@@ -14,7 +14,7 @@ const actions = [
 export function QuickActions({ onNavigate }: QuickActionsProps) {
   return (
     <div>
-      <div className="text-zinc-900 dark:text-white text-sm mb-4 px-1">Quick Actions</div>
+      <div className="text-zinc-900 dark:text-white text-sm font-bold mb-4 px-1">Quick Actions</div>
       <div className="grid grid-cols-2 gap-3">
         {actions.map((action, index) => (
           <button
@@ -22,6 +22,14 @@ export function QuickActions({ onNavigate }: QuickActionsProps) {
             onClick={() => onNavigate(action.page)}
             className={`bg-gradient-to-br ${action.color} rounded-2xl p-4 hover:brightness-110 transition-all group text-left relative overflow-hidden active:scale-[0.98]`}
           >
+            {/* Pattern Texture */}
+            <div
+              className="absolute inset-0 opacity-50 bg-repeat mix-blend-overlay"
+              style={{
+                backgroundImage: 'url(/master%202.png)',
+                backgroundSize: '240px 240px',
+              }}
+            />
             <div className="relative z-10 flex items-start justify-between">
               <div className="w-10 h-10 rounded-xl bg-zinc-50/20 flex items-center justify-center mb-3">
                 <action.icon className="w-5 h-5 text-zinc-50" />
