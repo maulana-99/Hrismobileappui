@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Pressable, ViewStyle } from 'react-native';
-import { colors, borderRadius, spacing, shadows } from '../../design-system/tokens';
+import '../../styles/mobile.css';
 
 interface CardProps {
   children: React.ReactNode;
   variant?: 'elevated' | 'outlined' | 'filled';
   onPress?: () => void;
-  style?: ViewStyle;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -14,56 +14,45 @@ export const Card: React.FC<CardProps> = ({
   variant = 'elevated',
   onPress,
   style,
+  className = '',
 }) => {
-  const isDark = false; // Would come from theme context
-
-  const getCardStyles = (): ViewStyle => {
-    const baseStyle: ViewStyle = {
-      borderRadius: borderRadius.xl,
-      padding: spacing.lg,
-    };
-
-    const variantStyles: Record<string, ViewStyle> = {
-      elevated: {
-        backgroundColor: isDark ? colors.surface.dark : colors.surface.light,
-        ...shadows.md,
-      },
-      outlined: {
-        backgroundColor: isDark ? colors.surface.dark : colors.surface.light,
-        borderWidth: 1,
-        borderColor: isDark ? colors.border.dark : colors.border.light,
-      },
-      filled: {
-        backgroundColor: isDark ? colors.surfaceSecondary.dark : colors.surfaceSecondary.light,
-      },
-    };
-
-    return {
-      ...baseStyle,
-      ...variantStyles[variant],
-    };
+  const getVariantClass = () => {
+    switch (variant) {
+      case 'elevated':
+        return 'card-elevated';
+      case 'outlined':
+        return 'card-outlined';
+      case 'filled':
+        return 'card-filled';
+      default:
+        return 'card-elevated';
+    }
   };
+
+  const cardClasses = ['card', getVariantClass(), className].filter(Boolean).join(' ');
 
   if (onPress) {
     return (
-      <Pressable
-        onPress={onPress}
-        style={({ pressed }) => [
-          getCardStyles(),
-          pressed && styles.pressed,
-          style,
-        ]}
+      <div
+        onClick={onPress}
+        className={`${cardClasses} pressable`}
+        style={style}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            onPress();
+          }
+        }}
       >
         {children}
-      </Pressable>
+      </div>
     );
   }
 
-  return <View style={[getCardStyles(), style]}>{children}</View>;
+  return (
+    <div className={cardClasses} style={style}>
+      {children}
+    </div>
+  );
 };
-
-const styles = StyleSheet.create({
-  pressed: {
-    opacity: 0.7,
-  },
-});

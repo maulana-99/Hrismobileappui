@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '../components/organisms/Header';
 import { Card } from '../components/atoms/Card';
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
 import { StatCard } from '../components/molecules/StatCard';
-import { ListItem } from '../components/molecules/ListItem';
-import { colors, typography, spacing, borderRadius } from '../design-system/tokens';
+import '../styles/mobile.css';
 
 // Icons
-const BackIcon = () => <Text>←</Text>;
-const CheckIcon = () => <Text>✓</Text>;
-const ClockIcon = () => <Text>⏰</Text>;
-const XIcon = () => <Text>✕</Text>;
+const BackIcon = () => <span>←</span>;
+const CheckIcon = () => <span>✓</span>;
+const ClockIcon = () => <span>⏰</span>;
+const XIcon = () => <span>✕</span>;
 
 interface LeaveRequestScreenProps {
   onBack: () => void;
@@ -21,7 +18,6 @@ interface LeaveRequestScreenProps {
 
 export const LeaveRequestScreen: React.FC<LeaveRequestScreenProps> = ({ onBack }) => {
   const [showForm, setShowForm] = useState(false);
-  const isDark = false; // Would come from theme context
 
   const leaveBalance = [
     { label: 'Sisa Cuti', value: '12', subtitle: 'hari' },
@@ -62,115 +58,46 @@ export const LeaveRequestScreen: React.FC<LeaveRequestScreenProps> = ({ onBack }
     },
   ];
 
-  const getStatusBadge = (status: string) => {
-    const statusConfig = {
-      approved: {
-        backgroundColor: 'rgba(163, 230, 53, 0.1)',
-        color: colors.success,
-        icon: <CheckIcon />,
-        label: 'Disetujui',
-      },
-      pending: {
-        backgroundColor: 'rgba(251, 191, 36, 0.1)',
-        color: colors.warning,
-        icon: <ClockIcon />,
-        label: 'Menunggu',
-      },
-      rejected: {
-        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-        color: colors.error,
-        icon: <XIcon />,
-        label: 'Ditolak',
-      },
-    };
-
-    const config = statusConfig[status as keyof typeof statusConfig];
-
-    return (
-      <View
-        style={[
-          styles.statusBadge,
-          { backgroundColor: config.backgroundColor },
-        ]}
-      >
-        <Text style={[styles.statusText, { color: config.color }]}>
-          {config.label}
-        </Text>
-      </View>
-    );
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'approved':
+        return 'Disetujui';
+      case 'pending':
+        return 'Menunggu';
+      case 'rejected':
+        return 'Ditolak';
+      default:
+        return status;
+    }
   };
 
-  const renderLeaveItem = ({ item }: { item: typeof leaveHistory[0] }) => (
-    <Card variant="outlined" style={styles.leaveItem}>
-      <View style={styles.leaveHeader}>
-        <View style={styles.leaveInfo}>
-          <Text
-            style={[
-              styles.leaveType,
-              { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-            ]}
-          >
-            {item.type}
-          </Text>
-          <Text
-            style={[
-              styles.leaveDates,
-              { color: isDark ? colors.text.secondary.dark : colors.text.secondary.light },
-            ]}
-          >
+  const renderLeaveItem = (item: typeof leaveHistory[0]) => (
+    <Card key={item.id} variant="outlined" className="leave-item">
+      <div className="leave-header">
+        <div className="leave-info">
+          <span className="leave-type">{item.type}</span>
+          <span className="leave-dates">
             {item.startDate} - {item.endDate} • {item.days}
-          </Text>
-        </View>
-        {getStatusBadge(item.status)}
-      </View>
+          </span>
+        </div>
+        <div className={`status-badge ${item.status}`}>
+          <span className={`status-text ${item.status}`}>
+            {getStatusLabel(item.status)}
+          </span>
+        </div>
+      </div>
 
-      <View
-        style={[
-          styles.leaveReason,
-          {
-            backgroundColor: isDark
-              ? colors.surfaceSecondary.dark
-              : colors.surfaceSecondary.light,
-          },
-        ]}
-      >
-        <Text
-          style={[
-            styles.leaveReasonLabel,
-            { color: isDark ? colors.text.tertiary.dark : colors.text.tertiary.light },
-          ]}
-        >
-          Alasan:
-        </Text>
-        <Text
-          style={[
-            styles.leaveReasonText,
-            { color: isDark ? colors.text.secondary.dark : colors.text.secondary.light },
-          ]}
-        >
-          {item.reason}
-        </Text>
-      </View>
+      <div className="leave-reason">
+        <span className="leave-reason-label">Alasan:</span>
+        <span className="leave-reason-text">{item.reason}</span>
+      </div>
 
-      <Text
-        style={[
-          styles.leaveAppliedDate,
-          { color: isDark ? colors.text.tertiary.dark : colors.text.tertiary.light },
-        ]}
-      >
-        Diajukan: {item.appliedDate}
-      </Text>
+      <span className="leave-applied-date">Diajukan: {item.appliedDate}</span>
     </Card>
   );
 
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        { backgroundColor: isDark ? colors.background.dark : colors.background.light },
-      ]}
-      edges={['top']}
-    >
+    <div className="mobile-container flex-1">
       <Header
         leftAction={{
           icon: <BackIcon />,
@@ -178,256 +105,105 @@ export const LeaveRequestScreen: React.FC<LeaveRequestScreenProps> = ({ onBack }
         }}
       />
 
-      <ScrollView
-        style={styles.content}
-        showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}
-      >
-        <View
-          style={[
-            styles.titleContainer,
-            { backgroundColor: isDark ? colors.background.dark : colors.background.light },
-          ]}
-        >
-          <Text
-            style={[
-              styles.title,
-              { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-            ]}
-          >
-            Pengajuan Cuti
-          </Text>
-          <Text
-            style={[
-              styles.subtitle,
-              { color: isDark ? colors.text.secondary.dark : colors.text.secondary.light },
-            ]}
-          >
-            Kelola Cuti Tahunan
-          </Text>
-        </View>
+      <div className="scroll-view">
+        <div className="title-container">
+          <span className="page-title">Pengajuan Cuti</span>
+          <span className="page-subtitle">Kelola Cuti Tahunan</span>
+        </div>
 
         {/* Leave Balance */}
-        <View style={styles.section}>
-          <View style={styles.balanceGrid}>
+        <div className="section content-padding">
+          <div className="balance-grid">
             {leaveBalance.map((item, index) => (
-              <View key={index} style={styles.balanceItem}>
+              <div key={index} className="balance-item">
                 <StatCard
                   label={item.label}
                   value={item.value}
                   subtitle={item.subtitle}
                   variant={index === 0 ? 'gradient' : 'default'}
                 />
-              </View>
+              </div>
             ))}
-          </View>
-        </View>
+          </div>
+        </div>
 
         {/* Apply Leave Button */}
-        <View style={styles.section}>
+        <div className="section content-padding">
           <Button
             title="Ajukan Cuti Baru"
             onPress={() => setShowForm(!showForm)}
             fullWidth
           />
-        </View>
+        </div>
 
         {/* Leave Form */}
         {showForm && (
-          <View style={styles.section}>
+          <div className="section content-padding">
             <Card variant="outlined">
-              <Text
-                style={[
-                  styles.formTitle,
-                  { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-                ]}
-              >
-                Form Pengajuan Cuti
-              </Text>
+              <span className="form-title">Form Pengajuan Cuti</span>
 
               <Input
                 label="Jenis Cuti"
                 value=""
-                onChangeText={() => {}}
+                onChangeText={() => { }}
                 placeholder="Pilih jenis cuti"
               />
 
-              <View style={styles.dateRow}>
-                <View style={styles.dateColumn}>
+              <div className="date-row">
+                <div className="date-column">
                   <Input
                     label="Tanggal Mulai"
                     value=""
-                    onChangeText={() => {}}
+                    onChangeText={() => { }}
                     placeholder="DD/MM/YYYY"
                   />
-                </View>
-                <View style={styles.dateColumn}>
+                </div>
+                <div className="date-column">
                   <Input
                     label="Tanggal Selesai"
                     value=""
-                    onChangeText={() => {}}
+                    onChangeText={() => { }}
                     placeholder="DD/MM/YYYY"
                   />
-                </View>
-              </View>
+                </div>
+              </div>
 
               <Input
                 label="Alasan"
                 value=""
-                onChangeText={() => {}}
+                onChangeText={() => { }}
                 placeholder="Jelaskan alasan pengajuan cuti..."
                 multiline
                 numberOfLines={3}
               />
 
-              <View style={styles.formActions}>
-                <View style={styles.formButton}>
+              <div className="form-actions">
+                <div className="form-button">
                   <Button
                     title="Batal"
                     onPress={() => setShowForm(false)}
                     variant="outline"
                     fullWidth
                   />
-                </View>
-                <View style={styles.formButton}>
-                  <Button title="Ajukan Cuti" onPress={() => {}} fullWidth />
-                </View>
-              </View>
+                </div>
+                <div className="form-button">
+                  <Button title="Ajukan Cuti" onPress={() => { }} fullWidth />
+                </div>
+              </div>
             </Card>
-          </View>
+          </div>
         )}
 
         {/* Leave History */}
-        <View style={styles.section}>
-          <Text
-            style={[
-              styles.sectionTitle,
-              { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-            ]}
-          >
-            Riwayat Pengajuan
-          </Text>
-          <FlatList
-            data={leaveHistory}
-            renderItem={renderLeaveItem}
-            keyExtractor={(item) => item.id}
-            scrollEnabled={false}
-            ItemSeparatorComponent={() => <View style={{ height: spacing.md }} />}
-          />
-        </View>
+        <div className="section content-padding">
+          <span className="section-title">Riwayat Pengajuan</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {leaveHistory.map(renderLeaveItem)}
+          </div>
+        </div>
 
-        <View style={{ height: spacing.xl }} />
-      </ScrollView>
-    </SafeAreaView>
+        <div style={{ height: 32 }} />
+      </div>
+    </div>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-  },
-  titleContainer: {
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.md,
-  },
-  title: {
-    fontFamily: typography.family.bold,
-    fontSize: typography.size['2xl'],
-    marginBottom: spacing.xs,
-  },
-  subtitle: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.base,
-  },
-  section: {
-    paddingHorizontal: spacing.lg,
-    marginTop: spacing.lg,
-  },
-  sectionTitle: {
-    fontFamily: typography.family.semiBold,
-    fontSize: typography.size.base,
-    marginBottom: spacing.md,
-  },
-  balanceGrid: {
-    flexDirection: 'row',
-    marginHorizontal: -spacing.sm,
-  },
-  balanceItem: {
-    flex: 1,
-    paddingHorizontal: spacing.sm,
-  },
-  formTitle: {
-    fontFamily: typography.family.semiBold,
-    fontSize: typography.size.lg,
-    marginBottom: spacing.lg,
-  },
-  dateRow: {
-    flexDirection: 'row',
-    marginHorizontal: -spacing.sm,
-  },
-  dateColumn: {
-    flex: 1,
-    paddingHorizontal: spacing.sm,
-  },
-  formActions: {
-    flexDirection: 'row',
-    marginTop: spacing.md,
-    marginHorizontal: -spacing.sm,
-  },
-  formButton: {
-    flex: 1,
-    paddingHorizontal: spacing.sm,
-  },
-  leaveItem: {
-    marginBottom: 0,
-  },
-  leaveHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: spacing.md,
-  },
-  leaveInfo: {
-    flex: 1,
-  },
-  leaveType: {
-    fontFamily: typography.family.semiBold,
-    fontSize: typography.size.base,
-    marginBottom: spacing.xs,
-  },
-  leaveDates: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.sm,
-  },
-  statusBadge: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.sm,
-    marginLeft: spacing.sm,
-  },
-  statusText: {
-    fontFamily: typography.family.medium,
-    fontSize: typography.size.xs,
-  },
-  leaveReason: {
-    borderRadius: borderRadius.md,
-    padding: spacing.md,
-    marginBottom: spacing.md,
-  },
-  leaveReasonLabel: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.xs,
-    marginBottom: spacing.xs,
-  },
-  leaveReasonText: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.base,
-  },
-  leaveAppliedDate: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.xs,
-  },
-});

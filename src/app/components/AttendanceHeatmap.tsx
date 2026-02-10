@@ -67,98 +67,113 @@ export function AttendanceHeatmap({ className = '' }: { className?: string }) {
     }, [monthsData, selectedMonth]);
 
     return (
-        <div className={`bg-[#121214] rounded-[32px] p-6 font-plus-jakarta ${className}`}>
-            {/* Heatmap Grids with Horizontal Scroll */}
-            <div className="overflow-x-auto pb-6 scrollbar-hide custom-scrollbar">
-                <div className="flex gap-8 px-2 min-w-max">
-                    {monthsData.map((month) => {
-                        const isActive = selectedMonth === month.name;
-                        return (
-                            <div
-                                key={month.name}
-                                className={`flex flex-col items-center cursor-pointer transition-all duration-300 ${selectedMonth && !isActive ? 'opacity-40 scale-95' : 'opacity-100 scale-100'
-                                    }`}
-                                onClick={() => setSelectedMonth(isActive ? null : month.name)}
-                            >
-                                <span className={`text-[13px] font-medium mb-4 transition-colors ${isActive ? 'text-[#a3e635]' : 'text-zinc-100'
-                                    }`}>
-                                    {month.name}
-                                </span>
-                                <div className={`p-2 rounded-xl transition-all ${isActive ? 'bg-zinc-800/40 ring-1 ring-zinc-700/50' : ''}`}>
-                                    {/* Day Initials Header */}
-                                    <div className="grid grid-cols-7 gap-1.5 mb-2 px-0.5">
-                                        {['S', 'S', 'R', 'K', 'J', 'S', 'M'].map((day, i) => (
-                                            <span key={i} className="text-[8px] text-zinc-600 font-bold text-center">
-                                                {day}
-                                            </span>
-                                        ))}
-                                    </div>
-                                    <div className="grid grid-cols-7 gap-1.5">
-                                        {month.days.map((day, idx) => {
-                                            let statusClass = 'bg-zinc-800';
-                                            if (day.status === 'present') statusClass = 'bg-[#a3e635] shadow-[0_0_8px_rgba(163,230,53,0.4)]';
-                                            if (day.status === 'late') statusClass = 'bg-[#fb923c] shadow-[0_0_8px_rgba(251,146,60,0.4)]';
-                                            if (day.status === 'absent') statusClass = 'bg-[#f87171] shadow-[0_0_8px_rgba(248,113,113,0.4)]';
+        <div className={`bg-white dark:bg-[#121214] border border-zinc-200 dark:border-transparent shadow-md dark:shadow-none rounded-[32px] p-6 font-plus-jakarta relative overflow-hidden ${className}`}>
+            {/* Background Texture */}
+            <div
+                className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-repeat"
+                style={{
+                    backgroundImage: 'url("/master%202.png")',
+                    backgroundSize: '180px 180px',
+                }}
+            />
 
-                                            return (
-                                                <div
-                                                    key={idx}
-                                                    className={`w-[8px] h-[8px] rounded-[2px] transition-colors duration-300 ${statusClass}`}
-                                                />
-                                            );
-                                        })}
+            <div className="relative z-10">
+                {/* Heatmap Grids with Horizontal Scroll */}
+                <div className="overflow-x-auto pb-6 scrollbar-hide custom-scrollbar">
+                    <div className="flex gap-8 px-2 min-w-max">
+                        {monthsData.map((month) => {
+                            const isActive = selectedMonth === month.name;
+                            return (
+                                <div
+                                    key={month.name}
+                                    className={`flex flex-col items-center cursor-pointer transition-all duration-300 ${selectedMonth && !isActive ? 'opacity-30 scale-95' : 'opacity-100 scale-100'
+                                        }`}
+                                    onClick={() => setSelectedMonth(isActive ? null : month.name)}
+                                >
+                                    <span className={`text-[13px] font-extrabold mb-4 transition-colors ${isActive ? 'text-lime-600 dark:text-[#a3e635]' : 'text-zinc-950 dark:text-zinc-100'
+                                        }`}>
+                                        {month.name}
+                                    </span>
+                                    <div className={`p-2.5 rounded-2xl transition-all ${isActive ? 'bg-zinc-100 dark:bg-zinc-800/40 ring-1 ring-zinc-200 dark:ring-zinc-700/50 shadow-inner' : ''}`}>
+                                        {/* Day Initials Header */}
+                                        <div className="grid grid-cols-7 gap-1.5 mb-2.5 px-0.5">
+                                            {['S', 'S', 'R', 'K', 'J', 'S', 'M'].map((day, i) => (
+                                                <span key={i} className="text-[9px] text-zinc-500 dark:text-zinc-600 font-extrabold text-center">
+                                                    {day}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <div className="grid grid-cols-7 gap-1.5">
+                                            {month.days.map((day, idx) => {
+                                                let statusClass = 'bg-zinc-200 dark:bg-zinc-800';
+                                                if (day.status === 'present') statusClass = 'bg-lime-500 dark:bg-[#a3e635] shadow-[0_0_8px_rgba(132,204,22,0.4)]';
+                                                if (day.status === 'late') statusClass = 'bg-orange-500 dark:bg-[#fb923c] shadow-[0_0_8px_rgba(249,115,22,0.4)]';
+                                                if (day.status === 'absent') statusClass = 'bg-rose-500 dark:bg-[#f87171] shadow-[0_0_8px_rgba(244,63,94,0.4)]';
+
+                                                return (
+                                                    <div
+                                                        key={idx}
+                                                        className={`w-[8px] h-[8px] rounded-[2px] transition-colors duration-300 ${statusClass}`}
+                                                    />
+                                                );
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* Summary Bar Section */}
-            <div className="mt-2">
-                <div className="flex items-center justify-between mb-3">
-                    <span className="text-zinc-400 text-xs font-medium">
-                        {selectedMonth ? `Ringkasan Bulan ${selectedMonth}` : 'Ringkasan 6 Bulan'}
-                    </span>
-                    <button
-                        onClick={() => setSelectedMonth(null)}
-                        className={`text-zinc-500 text-[10px] hover:text-[#a3e635] transition-colors ${!selectedMonth && 'invisible'}`}
-                    >
-                        Reset Filter
-                    </button>
+                            );
+                        })}
+                    </div>
                 </div>
 
-                {/* Segmented Bar */}
-                <div className="h-1.5 w-full bg-zinc-800 rounded-full flex overflow-hidden mb-4">
-                    <div
-                        style={{ width: `${stats.present}%` }}
-                        className="h-full bg-[#a3e635] transition-all duration-700 ease-in-out"
-                    />
-                    <div
-                        style={{ width: `${stats.late}%` }}
-                        className="h-full bg-[#fb923c] transition-all duration-700 ease-in-out"
-                    />
-                    <div
-                        style={{ width: `${stats.absent}%` }}
-                        className="h-full bg-[#f87171] transition-all duration-700 ease-in-out"
-                    />
-                </div>
+                {/* Summary Bar Section */}
+                <div className="mt-2">
+                    <div className="flex items-center justify-between mb-4">
+                        <span className="text-zinc-600 dark:text-zinc-400 text-xs font-bold tracking-tight">
+                            {selectedMonth ? `Ringkasan Bulan ${selectedMonth}` : 'Ringkasan 6 Bulan'}
+                        </span>
+                        <button
+                            onClick={() => setSelectedMonth(null)}
+                            className={`text-zinc-600 dark:text-zinc-500 text-[10px] font-extrabold px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:text-zinc-950 dark:hover:text-white transition-all ${!selectedMonth && 'invisible'}`}
+                        >
+                            Tampilkan Semua
+                        </button>
+                    </div>
 
-                {/* Legend/Labels */}
-                <div className="flex justify-between items-center">
-                    <div className="flex gap-4">
-                        <div className="flex items-center gap-1.5">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#a3e635]" />
-                            <span className="text-zinc-100 text-[11px] font-medium">{stats.raw.present} Masuk</span>
+                    {/* Segmented Bar - High Contrast */}
+                    <div className="h-3 w-full bg-zinc-100 dark:bg-zinc-800 rounded-full flex overflow-hidden mb-6 border border-zinc-200 dark:border-transparent">
+                        <div
+                            style={{ width: `${stats.present}%` }}
+                            className="h-full bg-lime-500 dark:bg-[#a3e635] transition-all duration-700 ease-in-out relative group"
+                        >
+                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
-                        <div className="flex items-center gap-1.5">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#fb923c]" />
-                            <span className="text-zinc-100 text-[11px] font-medium">{stats.raw.late} Telat</span>
+                        <div
+                            style={{ width: `${stats.late}%` }}
+                            className="h-full bg-orange-500 dark:bg-[#fb923c] transition-all duration-700 ease-in-out relative group"
+                        >
+                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
-                        <div className="flex items-center gap-1.5">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#f87171]" />
-                            <span className="text-zinc-100 text-[11px] font-medium">{stats.raw.absent} Alpa</span>
+                        <div
+                            style={{ width: `${stats.absent}%` }}
+                            className="h-full bg-rose-500 dark:bg-[#f87171] transition-all duration-700 ease-in-out relative group"
+                        >
+                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                    </div>
+
+                    {/* Legend/Labels - Modern Badges */}
+                    <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
+                        <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800/50 px-4 py-2 rounded-2xl border border-zinc-200 dark:border-transparent shrink-0">
+                            <div className="w-2 h-2 rounded-full bg-lime-500" />
+                            <span className="text-zinc-950 dark:text-zinc-100 text-[11px] font-extrabold">{stats.raw.present} Masuk</span>
+                        </div>
+                        <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800/50 px-4 py-2 rounded-2xl border border-zinc-200 dark:border-transparent shrink-0">
+                            <div className="w-2 h-2 rounded-full bg-orange-500" />
+                            <span className="text-zinc-950 dark:text-zinc-100 text-[11px] font-extrabold">{stats.raw.late} Telat</span>
+                        </div>
+                        <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800/50 px-4 py-2 rounded-2xl border border-zinc-200 dark:border-transparent shrink-0">
+                            <div className="w-2 h-2 rounded-full bg-rose-500" />
+                            <span className="text-zinc-950 dark:text-zinc-100 text-[11px] font-extrabold">{stats.raw.absent} Alpa</span>
                         </div>
                     </div>
                 </div>

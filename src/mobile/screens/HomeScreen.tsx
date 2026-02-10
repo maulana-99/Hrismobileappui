@@ -1,54 +1,48 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '../components/organisms/Header';
 import { Card } from '../components/atoms/Card';
 import { StatCard } from '../components/molecules/StatCard';
 import { Button } from '../components/atoms/Button';
-import { colors, typography, spacing, borderRadius } from '../design-system/tokens';
+import '../styles/mobile.css';
 
-// Icons would come from react-native-vector-icons or similar
-const MenuIcon = () => <Text>☰</Text>;
-const BellIcon = () => <Text>🔔</Text>;
-const ClockIcon = () => <Text>⏰</Text>;
-const CalendarIcon = () => <Text>📅</Text>;
-const FileIcon = () => <Text>📄</Text>;
-const UserIcon = () => <Text>👤</Text>;
-const DollarIcon = () => <Text>💰</Text>;
+// Icons
+const MenuIcon = () => <span>☰</span>;
+const BellIcon = () => <span>🔔</span>;
+const ClockIcon = () => <span>⏰</span>;
+const CalendarIcon = () => <span>📅</span>;
+const FileIcon = () => <span>📄</span>;
+const UserIcon = () => <span>👤</span>;
+const DollarIcon = () => <span>💰</span>;
+const SunIcon = () => <span style={{ fontSize: 16 }}>☀️</span>;
+const MoonIcon = () => <span style={{ fontSize: 16 }}>🌙</span>;
 
 interface HomeScreenProps {
   onNavigate: (screen: string) => void;
   onOpenMenu: () => void;
-  onLogout?: () => void; // Add logout handler
+  onLogout?: () => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenMenu, onLogout }) => {
-  const isDark = false; // Would come from theme context
-
   const quickActions = [
     {
       id: 'leave',
       label: 'Ajukan Cuti',
       icon: <CalendarIcon />,
-      color: colors.gradients.blue,
     },
     {
       id: 'payslip',
       label: 'Slip Gaji',
       icon: <FileIcon />,
-      color: colors.gradients.purple,
     },
     {
       id: 'permission',
       label: 'Izin Kerja',
       icon: <UserIcon />,
-      color: colors.gradients.orange,
     },
     {
       id: 'reimburse',
       label: 'Reimburse',
       icon: <DollarIcon />,
-      color: colors.gradients.emerald,
     },
   ];
 
@@ -80,14 +74,29 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenMenu, 
     },
   ];
 
+  // Shift data
+  const currentShift = {
+    name: 'Shift Pagi',
+    icon: <SunIcon />,
+    timeStart: '08:00',
+    timeEnd: '16:00',
+    breakStart: '12:00',
+    breakEnd: '13:00',
+    status: 'active',
+  };
+
+  const weeklyShifts = [
+    { day: 'Sen', date: '3', shift: 'Pagi', icon: <SunIcon />, isToday: false },
+    { day: 'Sel', date: '4', shift: 'Pagi', icon: <SunIcon />, isToday: true },
+    { day: 'Rab', date: '5', shift: 'Siang', icon: <MoonIcon />, isToday: false },
+    { day: 'Kam', date: '6', shift: 'Siang', icon: <MoonIcon />, isToday: false },
+    { day: 'Jum', date: '7', shift: 'Pagi', icon: <SunIcon />, isToday: false },
+    { day: 'Sab', date: '8', shift: 'Libur', icon: null, isToday: false },
+    { day: 'Min', date: '9', shift: 'Libur', icon: null, isToday: false },
+  ];
+
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        { backgroundColor: isDark ? colors.background.dark : colors.background.light },
-      ]}
-      edges={['top']}
-    >
+    <div className="mobile-container flex-1">
       <Header
         title="Budi Santoso"
         subtitle="Selamat Pagi,"
@@ -98,343 +107,173 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenMenu, 
         }}
         rightAction={{
           icon: <BellIcon />,
-          onPress: () => {},
+          onPress: () => { },
           badge: true,
         }}
       />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <div className="scroll-view content-padding">
         {/* Clock In Button */}
-        <Card variant="elevated" style={styles.section}>
-          <View style={styles.clockInContainer}>
-            <View style={styles.clockInInfo}>
-              <Text
-                style={[
-                  styles.clockInLabel,
-                  { color: isDark ? colors.text.secondary.dark : colors.text.secondary.light },
-                ]}
-              >
-                Belum Clock In
-              </Text>
-              <Text
-                style={[
-                  styles.clockInTime,
-                  { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-                ]}
-              >
-                08:45 WIB
-              </Text>
-              <Text
-                style={[
-                  styles.clockInDate,
-                  { color: isDark ? colors.text.tertiary.dark : colors.text.tertiary.light },
-                ]}
-              >
-                Rabu, 25 Des 2025
-              </Text>
-            </View>
-            <Pressable style={styles.clockInButton}>
+        <Card variant="elevated" className="section">
+          <div className="clock-in-container">
+            <div className="clock-in-info">
+              <span className="clock-in-label">Belum Clock In</span>
+              <span className="clock-in-time">08:45 WIB</span>
+              <span className="clock-in-date">Rabu, 25 Des 2025</span>
+            </div>
+            <button className="clock-in-button pressable">
               <ClockIcon />
-            </Pressable>
-          </View>
+            </button>
+          </div>
         </Card>
 
+        {/* Shift Section */}
+        <div className="section">
+          <div className="section-header">
+            <span className="section-title" style={{ marginBottom: 0 }}>Shift Anda</span>
+            <span className="see-all-link">Lihat Semua</span>
+          </div>
+
+          {/* Current Shift Card */}
+          <div className="shift-card-container">
+            <div className="shift-card">
+              <div className="shift-card-glow" />
+              <div className="shift-card-content">
+                <div className="shift-card-header">
+                  <div className="shift-icon-container">
+                    {currentShift.icon}
+                  </div>
+                  <div className="shift-status-badge">
+                    <span className="shift-status-dot" />
+                    <span className="shift-status-text">Aktif</span>
+                  </div>
+                </div>
+                <div className="shift-name">{currentShift.name}</div>
+                <div className="shift-time-row">
+                  <div className="shift-time-block">
+                    <span className="shift-time-label">Mulai</span>
+                    <span className="shift-time-value">{currentShift.timeStart}</span>
+                  </div>
+                  <div className="shift-time-divider">
+                    <span className="shift-time-divider-text">→</span>
+                  </div>
+                  <div className="shift-time-block">
+                    <span className="shift-time-label">Selesai</span>
+                    <span className="shift-time-value">{currentShift.timeEnd}</span>
+                  </div>
+                </div>
+                <div className="shift-break-info">
+                  <span className="shift-break-text">
+                    ☕ Istirahat: {currentShift.breakStart} - {currentShift.breakEnd}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Weekly Shift Schedule */}
+          <div className="weekly-shift-container">
+            <span className="weekly-shift-title">Jadwal Minggu Ini</span>
+            <div className="weekly-shift-grid">
+              {weeklyShifts.map((item, index) => (
+                <div
+                  key={index}
+                  className={`weekly-shift-item ${item.isToday ? 'today' : ''} ${item.shift === 'Libur' ? 'off-day' : ''}`}
+                >
+                  <span className="weekly-shift-day">{item.day}</span>
+                  <span className="weekly-shift-date">{item.date}</span>
+                  <div className="weekly-shift-icon">
+                    {item.icon ? item.icon : <span className="weekly-shift-off-text">-</span>}
+                  </div>
+                  <span className="weekly-shift-label">{item.shift}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Stats Overview */}
-        <View style={styles.section}>
-          <View style={styles.statsGrid}>
-            <View style={styles.statColumn}>
+        <div className="section">
+          <div className="stats-grid">
+            <div className="stat-column">
               <StatCard label="Sisa Cuti" value="12" subtitle="dari 14 hari" />
-            </View>
-            <View style={styles.statColumn}>
+            </div>
+            <div className="stat-column">
               <StatCard label="Kehadiran" value="28" subtitle="hari berturut-turut" />
-            </View>
-          </View>
-        </View>
+            </div>
+          </div>
+        </div>
 
         {/* Today's Schedule */}
-        <View style={styles.section}>
-          <Text
-            style={[
-              styles.sectionTitle,
-              { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-            ]}
-          >
-            Jadwal Hari Ini
-          </Text>
+        <div className="section">
+          <span className="section-title">Jadwal Hari Ini</span>
           <Card variant="outlined">
             {schedule.map((item, index) => (
-              <View key={index} style={[styles.scheduleItem, index > 0 && styles.scheduleItemSpacing]}>
-                <Text
-                  style={[
-                    styles.scheduleTime,
-                    { color: isDark ? colors.text.tertiary.dark : colors.text.tertiary.light },
-                  ]}
-                >
-                  {item.time}
-                </Text>
-                <View style={styles.scheduleContent}>
-                  <Text
-                    style={[
-                      styles.scheduleTitle,
-                      { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-                    ]}
-                  >
-                    {item.title}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.scheduleLocation,
-                      { color: isDark ? colors.text.secondary.dark : colors.text.secondary.light },
-                    ]}
-                  >
-                    {item.location}
-                  </Text>
-                </View>
-              </View>
+              <div key={index} className="schedule-item">
+                <span className="schedule-time">{item.time}</span>
+                <div className="schedule-content">
+                  <span className="schedule-title">{item.title}</span>
+                  <span className="schedule-location">{item.location}</span>
+                </div>
+              </div>
             ))}
           </Card>
-        </View>
+        </div>
 
         {/* Quick Actions */}
-        <View style={styles.section}>
-          <Text
-            style={[
-              styles.sectionTitle,
-              { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-            ]}
-          >
-            Quick Actions
-          </Text>
-          <View style={styles.quickActionsGrid}>
+        <div className="section">
+          <span className="section-title">Quick Actions</span>
+          <div className="quick-actions-grid">
             {quickActions.map((action) => (
-              <Pressable
+              <div
                 key={action.id}
-                onPress={() => onNavigate(action.id)}
-                style={({ pressed }) => [
-                  styles.quickAction,
-                  {
-                    backgroundColor: isDark ? colors.surface.dark : colors.surface.light,
-                    borderColor: isDark ? colors.border.dark : colors.border.light,
-                  },
-                  pressed && styles.quickActionPressed,
-                ]}
+                className="quick-action pressable"
+                onClick={() => onNavigate(action.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    onNavigate(action.id);
+                  }
+                }}
               >
-                <View style={styles.quickActionIcon}>{action.icon}</View>
-                <Text
-                  style={[
-                    styles.quickActionLabel,
-                    { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-                  ]}
-                >
-                  {action.label}
-                </Text>
-              </Pressable>
+                <span className="quick-action-icon">{action.icon}</span>
+                <span className="quick-action-label">{action.label}</span>
+              </div>
             ))}
-          </View>
-        </View>
+          </div>
+        </div>
 
         {/* Announcements */}
-        <View style={[styles.section, styles.lastSection]}>
-          <Text
-            style={[
-              styles.sectionTitle,
-              { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-            ]}
-          >
-            Pengumuman
-          </Text>
+        <div className="section last-section">
+          <span className="section-title">Pengumuman</span>
           {announcements.map((announcement, index) => (
             <Card
               key={index}
               variant="outlined"
-              style={index > 0 && { marginTop: spacing.md }}
-              onPress={() => {}}
+              style={index > 0 ? { marginTop: 16 } : undefined}
             >
-              <View style={styles.announcement}>
-                {announcement.important && <View style={styles.announcementBadge} />}
-                <View style={styles.announcementContent}>
-                  <Text
-                    style={[
-                      styles.announcementTitle,
-                      { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-                    ]}
-                  >
-                    {announcement.title}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.announcementDescription,
-                      { color: isDark ? colors.text.secondary.dark : colors.text.secondary.light },
-                    ]}
-                  >
-                    {announcement.description}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.announcementTime,
-                      { color: isDark ? colors.text.tertiary.dark : colors.text.tertiary.light },
-                    ]}
-                  >
-                    {announcement.time}
-                  </Text>
-                </View>
-              </View>
+              <div className="announcement">
+                {announcement.important && <div className="announcement-badge" />}
+                <div className="announcement-content">
+                  <span className="announcement-title">{announcement.title}</span>
+                  <span className="announcement-description">{announcement.description}</span>
+                  <span className="announcement-time">{announcement.time}</span>
+                </div>
+              </div>
             </Card>
           ))}
-        </View>
+        </div>
 
         {/* Logout Button */}
         {onLogout && (
-          <View style={[styles.section, styles.lastSection]}>
-            <Button
-              variant="outlined"
-              onPress={onLogout}
-              fullWidth
-            >
+          <div className="section last-section">
+            <Button variant="outlined" onPress={onLogout} fullWidth>
               🚪 Keluar / Logout
             </Button>
-          </View>
+          </div>
         )}
-      </ScrollView>
-    </SafeAreaView>
+      </div>
+    </div>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: spacing.lg,
-  },
-  section: {
-    marginTop: spacing.lg,
-  },
-  lastSection: {
-    marginBottom: spacing.xl,
-  },
-  sectionTitle: {
-    fontFamily: typography.family.semiBold,
-    fontSize: typography.size.base,
-    marginBottom: spacing.md,
-  },
-  clockInContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  clockInInfo: {
-    flex: 1,
-  },
-  clockInLabel: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.sm,
-    marginBottom: spacing.xs,
-  },
-  clockInTime: {
-    fontFamily: typography.family.bold,
-    fontSize: typography.size['3xl'],
-    marginBottom: spacing.xs,
-  },
-  clockInDate: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.sm,
-  },
-  clockInButton: {
-    width: 64,
-    height: 64,
-    borderRadius: borderRadius.xl,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  statsGrid: {
-    flexDirection: 'row',
-    marginHorizontal: -spacing.sm,
-  },
-  statColumn: {
-    flex: 1,
-    paddingHorizontal: spacing.sm,
-  },
-  scheduleItem: {
-    flexDirection: 'row',
-  },
-  scheduleItemSpacing: {
-    marginTop: spacing.md,
-  },
-  scheduleTime: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.sm,
-    width: 48,
-    paddingTop: spacing.xs,
-  },
-  scheduleContent: {
-    flex: 1,
-    padding: spacing.md,
-    backgroundColor: colors.surfaceSecondary.light,
-    borderRadius: borderRadius.md,
-  },
-  scheduleTitle: {
-    fontFamily: typography.family.medium,
-    fontSize: typography.size.base,
-    marginBottom: spacing.xs,
-  },
-  scheduleLocation: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.sm,
-  },
-  quickActionsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginHorizontal: -spacing.sm,
-  },
-  quickAction: {
-    width: '50%',
-    padding: spacing.sm,
-  },
-  quickActionInner: {
-    borderRadius: borderRadius.lg,
-    padding: spacing.lg,
-    borderWidth: 1,
-    minHeight: 100,
-  },
-  quickActionPressed: {
-    opacity: 0.7,
-  },
-  quickActionIcon: {
-    marginBottom: spacing.md,
-  },
-  quickActionLabel: {
-    fontFamily: typography.family.medium,
-    fontSize: typography.size.base,
-  },
-  announcement: {
-    flexDirection: 'row',
-  },
-  announcementBadge: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.primary,
-    marginRight: spacing.md,
-    marginTop: spacing.sm,
-  },
-  announcementContent: {
-    flex: 1,
-  },
-  announcementTitle: {
-    fontFamily: typography.family.medium,
-    fontSize: typography.size.base,
-    marginBottom: spacing.xs,
-  },
-  announcementDescription: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.sm,
-    marginBottom: spacing.xs,
-  },
-  announcementTime: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.xs,
-  },
-});

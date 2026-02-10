@@ -1,23 +1,13 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Input } from '../components/atoms/Input';
 import { Button } from '../components/atoms/Button';
-import { colors, typography, spacing, borderRadius } from '../design-system/tokens';
+import '../styles/mobile.css';
 
-// Icons - Replace with react-native-vector-icons
-const EyeIcon = () => <Text style={{ fontSize: 20 }}>👁️</Text>;
-const EyeOffIcon = () => <Text style={{ fontSize: 20 }}>🙈</Text>;
-const MailIcon = () => <Text style={{ fontSize: 20 }}>✉️</Text>;
-const LockIcon = () => <Text style={{ fontSize: 20 }}>🔒</Text>;
+// Icons
+const EyeIcon = () => <span style={{ fontSize: 20 }}>👁️</span>;
+const EyeOffIcon = () => <span style={{ fontSize: 20 }}>🙈</span>;
+const MailIcon = () => <span style={{ fontSize: 20 }}>✉️</span>;
+const LockIcon = () => <span style={{ fontSize: 20 }}>🔒</span>;
 
 interface LoginScreenProps {
   onLogin: (email: string, password: string) => Promise<void>;
@@ -36,8 +26,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     email: '',
     password: '',
   });
-
-  const isDark = false; // Would come from theme context
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -88,241 +76,107 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   };
 
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        { backgroundColor: isDark ? colors.background.dark : colors.background.light },
-      ]}
-      edges={['top', 'bottom']}
-    >
-      <KeyboardAvoidingView
-        style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
-      >
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Logo / App Name */}
-          <View style={styles.logoContainer}>
-            <View
-              style={[
-                styles.logo,
-                {
-                  backgroundColor: colors.primary,
-                },
-              ]}
-            >
-              <Text style={styles.logoText}>HR</Text>
-            </View>
-            <Text
-              style={[
-                styles.appName,
-                { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-              ]}
-            >
-              HRIS Mobile
-            </Text>
-          </View>
+    <div className="login-container">
+      {/* Logo / App Name */}
+      <div className="logo-container">
+        <div className="logo">
+          <span className="logo-text">HR</span>
+        </div>
+        <span className="app-name">HRIS Mobile</span>
+      </div>
 
-          {/* Header */}
-          <View style={styles.header}>
-            <Text
-              style={[
-                styles.title,
-                { color: isDark ? colors.text.primary.dark : colors.text.primary.light },
-              ]}
-            >
-              Login
-            </Text>
-            <Text
-              style={[
-                styles.subtitle,
-                { color: isDark ? colors.text.secondary.dark : colors.text.secondary.light },
-              ]}
-            >
-              Masuk ke akun HRIS Anda
-            </Text>
-          </View>
+      {/* Header */}
+      <div className="login-header">
+        <h1 className="login-title">Login</h1>
+        <p className="login-subtitle">Masuk ke akun HRIS Anda</p>
+      </div>
 
-          {/* Form */}
-          <View style={styles.form}>
-            {/* Email Input */}
-            <Input
-              label="Email"
-              placeholder="nama@perusahaan.com"
-              value={email}
-              onChangeText={(text) => {
-                setEmail(text);
-                if (errors.email) {
-                  setErrors({ ...errors, email: '' });
-                }
+      {/* Form */}
+      <div className="login-form">
+        {/* Email Input */}
+        <Input
+          label="Email"
+          placeholder="nama@perusahaan.com"
+          value={email}
+          onChangeText={(text) => {
+            setEmail(text);
+            if (errors.email) {
+              setErrors({ ...errors, email: '' });
+            }
+          }}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+          leftIcon={<MailIcon />}
+          error={errors.email}
+          disabled={isLoading}
+        />
+
+        {/* Password Input */}
+        <Input
+          label="Password"
+          placeholder="Masukkan password"
+          value={password}
+          onChangeText={(text) => {
+            setPassword(text);
+            if (errors.password) {
+              setErrors({ ...errors, password: '' });
+            }
+          }}
+          secureTextEntry={!showPassword}
+          autoCapitalize="none"
+          autoComplete="password"
+          leftIcon={<LockIcon />}
+          rightIcon={
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
               }}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoComplete="email"
-              leftIcon={<MailIcon />}
-              error={errors.email}
-              disabled={isLoading}
-            />
+            >
+              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
+          }
+          error={errors.password}
+          disabled={isLoading}
+        />
 
-            {/* Password Input */}
-            <Input
-              label="Password"
-              placeholder="Masukkan password"
-              value={password}
-              onChangeText={(text) => {
-                setPassword(text);
-                if (errors.password) {
-                  setErrors({ ...errors, password: '' });
-                }
-              }}
-              secureTextEntry={!showPassword}
-              autoCapitalize="none"
-              autoComplete="password"
-              leftIcon={<LockIcon />}
-              rightIcon={
-                <Pressable
-                  onPress={() => setShowPassword(!showPassword)}
-                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                >
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                </Pressable>
+        {/* Forgot Password */}
+        <div className="forgot-password-container">
+          <span
+            className="forgot-password"
+            onClick={onForgotPassword}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                onForgotPassword();
               }
-              error={errors.password}
-              disabled={isLoading}
-            />
+            }}
+          >
+            Lupa password?
+          </span>
+        </div>
 
-            {/* Forgot Password */}
-            <View style={styles.forgotPasswordContainer}>
-              <Pressable
-                onPress={onForgotPassword}
-                disabled={isLoading}
-                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              >
-                <Text
-                  style={[
-                    styles.forgotPassword,
-                    { color: colors.primary },
-                  ]}
-                >
-                  Lupa password?
-                </Text>
-              </Pressable>
-            </View>
+        {/* Login Button */}
+        <Button
+          title={isLoading ? 'Memproses...' : 'Login'}
+          onPress={handleLogin}
+          loading={isLoading}
+          disabled={isLoading}
+          fullWidth
+        />
+      </div>
 
-            {/* Login Button */}
-            <Button
-              title={isLoading ? 'Memproses...' : 'Login'}
-              onPress={handleLogin}
-              loading={isLoading}
-              disabled={isLoading}
-              fullWidth
-            />
-          </View>
-
-          {/* Spacer for better spacing */}
-          <View style={styles.spacer} />
-
-          {/* Footer */}
-          <View style={styles.footer}>
-            <Text
-              style={[
-                styles.footerText,
-                { color: isDark ? colors.text.tertiary.dark : colors.text.tertiary.light },
-              ]}
-            >
-              HRIS Mobile App v1.0.0
-            </Text>
-            <Text
-              style={[
-                styles.footerText,
-                { color: isDark ? colors.text.tertiary.dark : colors.text.tertiary.light },
-              ]}
-            >
-              © 2026 PT Perusahaan Indonesia
-            </Text>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      {/* Footer */}
+      <div className="login-footer">
+        <p className="footer-text">HRIS Mobile App v1.0.0</p>
+        <p className="footer-text">© 2026 PT Perusahaan Indonesia</p>
+      </div>
+    </div>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  keyboardView: {
-    flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing['2xl'],
-    paddingBottom: spacing.xl,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: spacing['2xl'],
-  },
-  logo: {
-    width: 80,
-    height: 80,
-    borderRadius: borderRadius.xl,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.md,
-  },
-  logoText: {
-    fontFamily: typography.family.bold,
-    fontSize: typography.size['3xl'],
-    color: '#18181b',
-  },
-  appName: {
-    fontFamily: typography.family.semiBold,
-    fontSize: typography.size.lg,
-  },
-  header: {
-    marginBottom: spacing.xl,
-  },
-  title: {
-    fontFamily: typography.family.bold,
-    fontSize: typography.size['3xl'],
-    marginBottom: spacing.sm,
-  },
-  subtitle: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.base,
-  },
-  form: {
-    marginBottom: spacing.lg,
-  },
-  forgotPasswordContainer: {
-    alignItems: 'flex-end',
-    marginTop: -spacing.sm,
-    marginBottom: spacing.lg,
-  },
-  forgotPassword: {
-    fontFamily: typography.family.medium,
-    fontSize: typography.size.sm,
-  },
-  spacer: {
-    flex: 1,
-  },
-  footer: {
-    alignItems: 'center',
-    paddingTop: spacing.lg,
-  },
-  footerText: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.xs,
-    marginBottom: spacing.xs,
-  },
-});

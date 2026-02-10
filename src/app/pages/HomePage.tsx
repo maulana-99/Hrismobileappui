@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { ClockInButton } from '../components/ClockInButton';
-import { TodaySchedule } from '../components/TodaySchedule';
 import { StatsOverview } from '../components/StatsOverview';
 import { QuickActions } from '../components/QuickActions';
 import { Announcements } from '../components/Announcements';
-import { AttendanceHeatmap } from '../components/AttendanceHeatmap';
+import { MonthlyHeatmapCard } from '../components/MonthlyHeatmapCard';
+import { ShiftCard } from '../components/ShiftCard';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -26,7 +26,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       // Default all to true if no settings found
       setVisibleCards({
         clockIn: true,
-        schedule: true,
+        shift: true,
         heatmap: true,
         stats: true,
         quickActions: true,
@@ -40,11 +40,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {/* Clock In/Out Button */}
       {visibleCards.clockIn !== false && <ClockInButton />}
 
-      {/* Today's Schedule */}
-      {visibleCards.schedule !== false && <TodaySchedule />}
+      {/* Shift Card - New Premium Section */}
+      {visibleCards.shift !== false && <ShiftCard />}
 
-      {/* Attendance History Heatmap - GitHub Style */}
-      {visibleCards.heatmap !== false && <AttendanceHeatmap />}
+      {/* Attendance History Heatmap - Monthly Style */}
+      {visibleCards.heatmap !== false && <MonthlyHeatmapCard />}
 
       {/* Stats Overview */}
       {visibleCards.stats !== false && <StatsOverview />}

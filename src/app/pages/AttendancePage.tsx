@@ -1,4 +1,5 @@
 import { Calendar, Clock, TrendingUp, CheckCircle, AlertTriangle } from 'lucide-react';
+import { MonthlyHeatmapCard } from '../components/MonthlyHeatmapCard';
 
 export function AttendancePage() {
   const monthStats = {
@@ -123,55 +124,10 @@ export function AttendancePage() {
 
   return (
     <div className="space-y-6">
-      {/* Month Summary */}
-      <div className="bg-gradient-to-br from-lime-400 to-emerald-400 rounded-3xl p-6 relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-50 bg-repeat mix-blend-overlay"
-          style={{
-            backgroundImage: 'url(/master%202.png)',
-            backgroundSize: '240px 240px',
-          }}
-        />
-        <div className="relative z-10">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <div className="text-zinc-900/60 text-sm mb-1">Kehadiran Bulan Ini</div>
-              <div className="text-zinc-900 text-3xl font-bold">{monthStats.percentage}%</div>
-            </div>
-            <div className="w-16 h-16 rounded-2xl bg-zinc-900/10 flex items-center justify-center">
-              <TrendingUp className="w-8 h-8 text-zinc-900" />
-            </div>
-          </div>
 
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-zinc-900/10 rounded-xl p-3">
-              <div className="text-zinc-900/60 text-xs mb-1">Hadir</div>
-              <div className="text-zinc-900 text-xl font-bold">{monthStats.present}</div>
-            </div>
-            <div className="bg-zinc-900/10 rounded-xl p-3">
-              <div className="text-zinc-900/60 text-xs mb-1">Terlambat</div>
-              <div className="text-zinc-900 text-xl font-bold">{monthStats.late}</div>
-            </div>
-            <div className="bg-zinc-900/10 rounded-xl p-3">
-              <div className="text-zinc-900/60 text-xs mb-1">Alpa</div>
-              <div className="text-zinc-900 text-xl font-bold">{monthStats.absent}</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Monthly Heatmap Card */}
+      <MonthlyHeatmapCard />
 
-      {/* Filter */}
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-5 px-5 scrollbar-hide">
-        <button className="flex-shrink-0 px-4 py-2 rounded-xl bg-lime-400 text-zinc-900 font-medium text-sm">
-          Desember 2025
-        </button>
-        <button className="flex-shrink-0 px-4 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-sm">
-          November 2025
-        </button>
-        <button className="flex-shrink-0 px-4 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-sm">
-          Oktober 2025
-        </button>
-      </div>
 
       {/* Attendance History */}
       <div>

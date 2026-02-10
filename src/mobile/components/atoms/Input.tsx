@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { colors, typography, spacing, borderRadius, layout } from '../../design-system/tokens';
+import '../../styles/mobile.css';
 
 interface InputProps {
   label?: string;
@@ -17,7 +16,8 @@ interface InputProps {
   autoComplete?: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-  style?: ViewStyle;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -36,101 +36,66 @@ export const Input: React.FC<InputProps> = ({
   leftIcon,
   rightIcon,
   style,
+  className = '',
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const isDark = false; // Would come from theme context
 
-  const getContainerStyles = (): ViewStyle => {
-    return {
-      backgroundColor: isDark ? colors.surfaceSecondary.dark : colors.surfaceSecondary.light,
-      borderWidth: 1,
-      borderColor: error
-        ? colors.error
-        : isFocused
-        ? colors.primary
-        : isDark
-        ? colors.border.dark
-        : colors.border.light,
-      borderRadius: borderRadius.lg,
-      paddingHorizontal: spacing.md,
-      paddingVertical: spacing.md,
-      minHeight: layout.inputHeight,
-      flexDirection: 'row',
-      alignItems: multiline ? 'flex-start' : 'center',
-    };
+  const getInputType = () => {
+    if (secureTextEntry) return 'password';
+    switch (keyboardType) {
+      case 'email-address':
+        return 'email';
+      case 'numeric':
+        return 'number';
+      case 'phone-pad':
+        return 'tel';
+      default:
+        return 'text';
+    }
   };
 
-  const getInputStyles = (): TextStyle => {
-    return {
-      flex: 1,
-      fontFamily: typography.family.regular,
-      fontSize: typography.size.base,
-      color: isDark ? colors.text.primary.dark : colors.text.primary.light,
-      paddingVertical: 0,
-      ...(multiline && { textAlignVertical: 'top' }),
-    };
-  };
+  const containerClasses = [
+    'input-container',
+    isFocused ? 'focused' : '',
+    error ? 'error' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <View style={[styles.wrapper, style]}>
-      {label && (
-        <Text
-          style={[
-            styles.label,
-            {
-              color: isDark ? colors.text.secondary.dark : colors.text.secondary.light,
-            },
-          ]}
-        >
-          {label}
-        </Text>
-      )}
-      <View style={getContainerStyles()}>
-        {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
-        <TextInput
-          value={value}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
-          placeholderTextColor={isDark ? colors.text.tertiary.dark : colors.text.tertiary.light}
-          editable={!disabled}
-          multiline={multiline}
-          numberOfLines={numberOfLines}
-          keyboardType={keyboardType}
-          secureTextEntry={secureTextEntry}
-          autoCapitalize={autoCapitalize}
-          autoComplete={autoComplete}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          style={getInputStyles()}
-        />
-        {rightIcon && <View style={styles.rightIcon}>{rightIcon}</View>}
-      </View>
-      {error && <Text style={styles.error}>{error}</Text>}
-    </View>
+    <div className={`input-wrapper ${className}`} style={style}>
+      {label && <label className="input-label">{label}</label>}
+      <div className={containerClasses}>
+        {leftIcon && <span className="input-icon-left">{leftIcon}</span>}
+        {multiline ? (
+          <textarea
+            value={value}
+            onChange={(e) => onChangeText(e.target.value)}
+            placeholder={placeholder}
+            disabled={disabled}
+            rows={numberOfLines}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            className="input-field"
+            style={{ resize: 'none', minHeight: numberOfLines * 24 }}
+          />
+        ) : (
+          <input
+            type={getInputType()}
+            value={value}
+            onChange={(e) => onChangeText(e.target.value)}
+            placeholder={placeholder}
+            disabled={disabled}
+            autoComplete={autoComplete}
+            autoCapitalize={autoCapitalize}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            className="input-field"
+          />
+        )}
+        {rightIcon && <span className="input-icon-right">{rightIcon}</span>}
+      </div>
+      {error && <span className="input-error">{error}</span>}
+    </div>
   );
 };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    marginBottom: spacing.md,
-  },
-  label: {
-    fontFamily: typography.family.medium,
-    fontSize: typography.size.sm,
-    marginBottom: spacing.sm,
-  },
-  leftIcon: {
-    marginRight: spacing.sm,
-    justifyContent: 'center',
-  },
-  rightIcon: {
-    marginLeft: spacing.sm,
-    justifyContent: 'center',
-  },
-  error: {
-    fontFamily: typography.family.regular,
-    fontSize: typography.size.xs,
-    color: colors.error,
-    marginTop: spacing.xs,
-  },
-});
