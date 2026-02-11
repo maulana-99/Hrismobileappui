@@ -293,7 +293,7 @@ export function ClockInButton() {
           className="absolute inset-0 opacity-50 transition-transform duration-700 group-hover:scale-110 bg-repeat mix-blend-overlay"
           style={{
             backgroundImage: 'url(/master%202.png)',
-            backgroundSize: '240px 240px',
+            backgroundSize: '400px 400px',
           }}
         />
 

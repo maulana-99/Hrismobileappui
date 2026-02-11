@@ -70,7 +70,7 @@ export function AttendanceHeatmap({ className = '' }: { className?: string }) {
         <div className={`bg-white dark:bg-[#121214] border border-zinc-200 dark:border-transparent shadow-md dark:shadow-none rounded-[32px] p-6 font-plus-jakarta relative overflow-hidden ${className}`}>
             {/* Background Texture */}
             <div
-                className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-repeat"
+                className="absolute inset-0 opacity-[0.1] dark:opacity-[0.15] pointer-events-none bg-repeat"
                 style={{
                     backgroundImage: 'url("/master%202.png")',
                     backgroundSize: '180px 180px',

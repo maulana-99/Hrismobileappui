@@ -41,7 +41,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       {visibleCards.clockIn !== false && <ClockInButton />}
 
       {/* Shift Card - New Premium Section */}
-      {visibleCards.shift !== false && <ShiftCard />}
+      {visibleCards.shift !== false && <ShiftCard onNavigate={onNavigate} />}
 
       {/* Attendance History Heatmap - Monthly Style */}
       {visibleCards.heatmap !== false && <MonthlyHeatmapCard />}

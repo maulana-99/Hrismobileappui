@@ -64,7 +64,11 @@ const mockShiftSchedules: ShiftSchedule[] = [
     { id: 7, shift_id: 1, day_of_week: 0, start_time: '08:00:00', end_time: '12:00:00', is_working_day: false },
 ];
 
-export function ShiftCard() {
+interface ShiftCardProps {
+    onNavigate?: (page: string) => void;
+}
+
+export function ShiftCard({ onNavigate }: ShiftCardProps) {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [isHovered, setIsHovered] = useState(false);
 
@@ -179,7 +183,7 @@ export function ShiftCard() {
             case 'morning': return 'text-amber-600 dark:text-amber-400';
             case 'afternoon': return 'text-violet-600 dark:text-violet-400';
             case 'night': return 'text-indigo-600 dark:text-indigo-400';
-            default: return 'text-zinc-400 dark:text-zinc-600';
+            default: return 'text-zinc-400 dark:text-zinc-500';
         }
     };
 
@@ -206,7 +210,12 @@ export function ShiftCard() {
 
     const textureStyle = {
         backgroundImage: 'url("/master%202.png")',
-        backgroundSize: '160px 160px',
+        backgroundSize: '400px 400px',
+    };
+
+    const denseTextureStyle = {
+        backgroundImage: 'url("/master%202.png")',
+        backgroundSize: '180px 180px',
     };
 
     return (
@@ -216,9 +225,12 @@ export function ShiftCard() {
                     <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center">
                         <Clock className="w-4 h-4 text-white" />
                     </div>
-                    <h3 className="text-zinc-900 dark:text-white font-semibold">Shift Anda</h3>
+                    <h3 className="text-zinc-900 dark:text-white font-bold tracking-tight">Shift Anda</h3>
                 </div>
-                <button className="flex items-center gap-1 text-lime-500 hover:text-lime-600 dark:text-lime-400 dark:hover:text-lime-300 text-sm font-medium transition-colors">
+                <button
+                    onClick={() => onNavigate?.('shift')}
+                    className="flex items-center gap-1 text-lime-600 hover:text-lime-700 dark:text-lime-400 dark:hover:text-lime-300 text-sm font-bold transition-colors"
+                >
                     Lihat Semua
                     <ChevronRight className="w-4 h-4" />
                 </button>
@@ -231,7 +243,7 @@ export function ShiftCard() {
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     <div className="relative overflow-hidden rounded-[23px] bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl">
-                        <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-repeat" style={textureStyle} />
+                        <div className="absolute inset-0 opacity-[0.15] pointer-events-none bg-repeat mix-blend-overlay" style={denseTextureStyle} />
                         <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full bg-white/20 blur-3xl transition-all duration-700 ${isHovered ? 'scale-150 opacity-30' : 'scale-100 opacity-20'}`} />
                         <div className={`absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-white/10 blur-3xl transition-all duration-700 ${isHovered ? 'scale-150 opacity-20' : 'scale-100 opacity-10'}`} />
                         <div className="relative p-5">
@@ -289,7 +301,7 @@ export function ShiftCard() {
             ) : (
                 <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-400 via-blue-500 to-indigo-600 p-px transition-all duration-500 group">
                     <div className="relative overflow-hidden rounded-[23px] bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-2xl p-6">
-                        <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-repeat" style={textureStyle} />
+                        <div className="absolute inset-0 opacity-[0.15] pointer-events-none bg-repeat mix-blend-overlay" style={denseTextureStyle} />
                         <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-white/20 blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                         <div className="absolute -bottom-12 -left-12 w-32 h-32 rounded-full bg-teal-300/20 blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                         <div className="relative flex flex-col items-center text-center">
@@ -313,27 +325,43 @@ export function ShiftCard() {
                 </div>
             )}
 
-            <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-200 dark:border-zinc-800/50">
-                <div className="flex items-center justify-between mb-3">
-                    <p className="text-zinc-600 dark:text-zinc-400 text-sm font-medium">Jadwal Minggu Ini</p>
-                    <p className="text-zinc-400 dark:text-zinc-600 text-xs">Feb 2026</p>
-                </div>
-                <div className="grid grid-cols-7 gap-1.5">
-                    {weeklyShifts.map((item, index) => (
-                        <button
-                            key={index}
-                            className={`relative flex flex-col items-center py-2.5 px-1 rounded-xl transition-all duration-300 hover:scale-105 ${getShiftBgColor(item.shiftType, item.isSelected)} ${item.isSelected ? 'ring-2 ring-lime-400 ring-offset-2 dark:ring-offset-zinc-900' : ''} ${item.isToday && !item.isSelected ? 'border border-lime-400/50' : ''}`}
-                            onClick={() => setSelectedDate(item.fullDate)}
-                        >
-                            {item.isToday && <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-lime-500" />}
-                            <span className={`text-[10px] font-medium mb-0.5 ${item.isSelected ? 'text-zinc-900' : 'text-zinc-500 dark:text-zinc-500'}`}>{item.dayName}</span>
-                            <span className={`text-sm font-bold mb-1 ${item.isSelected ? 'text-zinc-900' : 'text-zinc-900 dark:text-white'}`}>{item.date}</span>
-                            <div className={`h-5 flex items-center justify-center ${getShiftTextColor(item.shiftType, item.isSelected)}`}>
-                                {item.shiftType !== 'off' ? getShiftIcon(item.shiftType) : <Umbrella className="w-3 h-3 opacity-40" />}
-                            </div>
-                            <span className={`text-[9px] font-medium ${item.isSelected ? 'text-zinc-900/80' : getShiftTextColor(item.shiftType, item.isSelected)}`}>{item.shiftName}</span>
-                        </button>
-                    ))}
+            <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-200 dark:border-zinc-800/50 relative overflow-hidden">
+                {/* Background Texture */}
+                <div
+                    className="absolute inset-0 opacity-[0.1] dark:opacity-[0.15] pointer-events-none bg-repeat"
+                    style={textureStyle}
+                />
+
+                <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-3 text-zinc-600 dark:text-zinc-400">
+                        <p className="text-sm font-bold">Jadwal Minggu Ini</p>
+                        <p className="text-xs font-medium uppercase tracking-wider">Feb 2026</p>
+                    </div>
+                    <div className="grid grid-cols-7 gap-1.5">
+                        {weeklyShifts.map((item, index) => (
+                            <button
+                                key={index}
+                                className={`relative flex flex-col items-center py-2.5 px-1 rounded-xl transition-all duration-300 hover:scale-105 overflow-hidden group/btn ${getShiftBgColor(item.shiftType, item.isSelected)} ${item.isSelected ? 'ring-2 ring-lime-400 ring-offset-2 dark:ring-offset-zinc-900 shadow-lg' : ''} ${item.isToday && !item.isSelected ? 'border border-lime-400/50' : ''}`}
+                                onClick={() => setSelectedDate(item.fullDate)}
+                            >
+                                {/* Micro Texture inside button */}
+                                <div
+                                    className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-repeat"
+                                    style={{ ...textureStyle, backgroundSize: '100px 100px' }}
+                                />
+
+                                <div className="relative z-10 flex flex-col items-center">
+                                    {item.isToday && <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-lime-500" />}
+                                    <span className={`text-[9px] font-bold mb-0.5 uppercase tracking-tighter ${item.isSelected ? 'text-zinc-900' : 'text-zinc-500 dark:text-zinc-500'}`}>{item.dayName}</span>
+                                    <span className={`text-sm font-black mb-1 ${item.isSelected ? 'text-zinc-900' : 'text-zinc-950 dark:text-white'}`}>{item.date}</span>
+                                    <div className={`h-5 flex items-center justify-center ${getShiftTextColor(item.shiftType, item.isSelected)}`}>
+                                        {item.shiftType !== 'off' ? getShiftIcon(item.shiftType) : <Umbrella className="w-3 h-3 opacity-40" />}
+                                    </div>
+                                    <span className={`text-[8px] font-bold uppercase tracking-tighter ${item.isSelected ? 'text-zinc-900/80' : getShiftTextColor(item.shiftType, item.isSelected)}`}>{item.shiftName}</span>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -344,13 +372,13 @@ export function ShiftCard() {
                     { type: 'night', icon: Moon, color: 'indigo', label: 'Shift Malam', count: shiftStats.night },
                 ].map((stat) => (
                     <div key={stat.type} className={`bg-${stat.color}-50 dark:bg-${stat.color}-900/20 rounded-xl p-3 text-center border border-${stat.color}-100 dark:border-${stat.color}-800/30 relative overflow-hidden`}>
-                        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-repeat" style={{ ...textureStyle, backgroundSize: '120px 120px' }} />
+                        <div className="absolute inset-0 opacity-[0.1] dark:opacity-[0.15] pointer-events-none bg-repeat" style={textureStyle} />
                         <div className="relative z-10 text-center">
                             <div className="flex items-center justify-center gap-1 mb-1">
                                 <stat.icon className={`w-3.5 h-3.5 text-${stat.color}-500`} />
                             </div>
-                            <p className={`text-${stat.color}-900 dark:text-${stat.color}-400 text-lg font-bold`}>{stat.count}</p>
-                            <p className={`text-${stat.color}-600 dark:text-${stat.color}-500 text-[10px]`}>{stat.label}</p>
+                            <p className={`text-${stat.color}-950 dark:text-${stat.color}-400 text-xl font-black`}>{stat.count}</p>
+                            <p className={`text-${stat.color}-600 dark:text-${stat.color}-500 text-[10px] font-bold uppercase tracking-tighter`}>{stat.label}</p>
                         </div>
                     </div>
                 ))}

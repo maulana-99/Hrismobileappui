@@ -14,6 +14,7 @@ import { ReimbursePage } from './pages/ReimbursePage';
 import { AttendancePage } from './pages/AttendancePage';
 import { NotificationPage } from './pages/NotificationPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { ShiftPage } from './pages/ShiftPage';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication state
@@ -91,6 +92,8 @@ export default function App() {
         return <NotificationPage onBack={() => setCurrentPage('home')} />;
       case 'settings':
         return <SettingsPage />;
+      case 'shift':
+        return <ShiftPage />;
       default:
         return <HomePage onNavigate={setCurrentPage} />;
     }
@@ -122,6 +125,8 @@ export default function App() {
         return { greeting: '', name: 'Notifikasi', subtitle: 'Pemberitahuan & Pengingat' };
       case 'settings':
         return { greeting: '', name: 'Pengaturan', subtitle: 'Konfigurasi Aplikasi' };
+      case 'shift':
+        return { greeting: '', name: 'Jadwal Shift', subtitle: 'Lihat Shift Bulanan Anda' };
       default:
         return { greeting: 'Selamat Pagi,', name: 'Budi Santoso', subtitle: 'Product Designer • Jakarta Office' };
     }

@@ -1,4 +1,4 @@
-import { X, Sun, Moon, Home, User, FileText, Folder, LogOut, Settings, HelpCircle } from 'lucide-react';
+import { X, Sun, Moon, Home, User, FileText, Folder, LogOut, Settings, HelpCircle, Calendar } from 'lucide-react';
 
 interface SidePanelProps {
   isOpen: boolean;
@@ -15,6 +15,7 @@ const menuItems = [
   { id: 'profile', icon: User, label: 'Profil' },
   { id: 'documents', icon: Folder, label: 'Dokumen' },
   { id: 'attendance', icon: FileText, label: 'Riwayat Absensi' },
+  { id: 'shift', icon: Calendar, label: 'Jadwal Shift' },
 ];
 
 export function SidePanel({ isOpen, onClose, isDarkMode, onToggleTheme, onNavigate, currentPage, onLogout }: SidePanelProps) {

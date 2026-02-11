@@ -18,7 +18,7 @@ const announcements = [
 export function Announcements() {
   const textureStyle = {
     backgroundImage: 'url("/master%202.png")',
-    backgroundSize: '160px 160px',
+    backgroundSize: '400px 400px',
   };
 
   return (
@@ -36,7 +36,7 @@ export function Announcements() {
           >
             {/* Background Texture */}
             <div
-              className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-repeat"
+              className="absolute inset-0 opacity-[0.1] dark:opacity-[0.15] pointer-events-none bg-repeat"
               style={textureStyle}
             />
 

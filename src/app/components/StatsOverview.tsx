@@ -3,7 +3,7 @@ import { TrendingUp } from 'lucide-react';
 export function StatsOverview() {
   const textureStyle = {
     backgroundImage: 'url("/master%202.png")',
-    backgroundSize: '160px 160px',
+    backgroundSize: '400px 400px',
   };
 
   return (
@@ -12,8 +12,8 @@ export function StatsOverview() {
       <div className="bg-white dark:bg-zinc-900/50 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800/50 shadow-sm dark:shadow-none relative overflow-hidden">
         {/* Background Texture */}
         <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-repeat"
-          style={textureStyle}
+          className="absolute inset-0 opacity-[0.1] dark:opacity-[0.15] pointer-events-none bg-repeat"
+          style={{ ...textureStyle, backgroundSize: '180px 180px' }}
         />
         <div className="relative z-10">
           <div className="text-zinc-500 dark:text-zinc-400 text-xs font-bold mb-3 uppercase tracking-wider">Sisa Cuti</div>
@@ -29,8 +29,8 @@ export function StatsOverview() {
       <div className="bg-white dark:bg-zinc-900/50 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800/50 shadow-sm dark:shadow-none relative overflow-hidden">
         {/* Background Texture */}
         <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-repeat"
-          style={textureStyle}
+          className="absolute inset-0 opacity-[0.1] dark:opacity-[0.15] pointer-events-none bg-repeat"
+          style={{ ...textureStyle, backgroundSize: '160px 160px' }}
         />
         <div className="relative z-10">
           <div className="flex items-center gap-1.5 mb-3">
