@@ -11,6 +11,7 @@ import {
     formatTime,
     getScheduleForDay,
     isShiftActive,
+    getShiftStatus,
 } from "../types/shift";
 
 // ============================================
@@ -128,6 +129,7 @@ export function ShiftCard({ onNavigate }: ShiftCardProps) {
 
         const type = getShiftType(schedule.start_time);
         const shiftNameMap = { morning: 'Shift Pagi', afternoon: 'Shift Siang', night: 'Shift Malam' };
+        const status = getShiftStatus(schedule, selectedDate);
 
         return {
             name: shiftNameMap[type] || currentShift.shift.name,
@@ -135,7 +137,8 @@ export function ShiftCard({ onNavigate }: ShiftCardProps) {
             timeStart: formatTime(schedule.start_time),
             timeEnd: formatTime(schedule.end_time),
             isWorkingDay: schedule.is_working_day,
-            isActive: isToday && isShiftActive(schedule),
+            status,
+            isActive: status === 'active',
             isToday,
             dateDisplay: selectedDate.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' }),
         };
@@ -160,9 +163,9 @@ export function ShiftCard({ onNavigate }: ShiftCardProps) {
 
     const getShiftGradient = (type: string) => {
         switch (type) {
-            case 'morning': return 'from-amber-400 via-orange-400 to-rose-400';
-            case 'afternoon': return 'from-violet-400 via-purple-400 to-fuchsia-400';
-            case 'night': return 'from-indigo-500 via-purple-500 to-pink-500';
+            case 'morning': return 'from-emerald-500 via-teal-500 to-cyan-500';
+            case 'afternoon': return 'from-orange-400 via-amber-500 to-rose-500';
+            case 'night': return 'from-indigo-600 via-purple-600 to-pink-600';
             default: return 'from-zinc-400 to-zinc-500';
         }
     };
@@ -170,20 +173,20 @@ export function ShiftCard({ onNavigate }: ShiftCardProps) {
     const getShiftBgColor = (type: string, isToday: boolean) => {
         if (isToday) return 'bg-lime-400';
         switch (type) {
-            case 'morning': return 'bg-amber-50 dark:bg-amber-900/20';
-            case 'afternoon': return 'bg-violet-50 dark:bg-violet-900/20';
-            case 'night': return 'bg-indigo-50 dark:bg-indigo-900/20';
-            default: return 'bg-zinc-50 dark:bg-zinc-900/30';
+            case 'morning': return 'bg-emerald-100 dark:bg-emerald-900/40 border-emerald-200 dark:border-emerald-800/50';
+            case 'afternoon': return 'bg-orange-100 dark:bg-orange-900/40 border-orange-200 dark:border-orange-800/50';
+            case 'night': return 'bg-indigo-100 dark:bg-indigo-900/40 border-indigo-200 dark:border-indigo-800/50';
+            default: return 'bg-zinc-100 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700/50';
         }
     };
 
     const getShiftTextColor = (type: string, isToday: boolean) => {
-        if (isToday) return 'text-zinc-900';
+        if (isToday) return 'text-zinc-950';
         switch (type) {
-            case 'morning': return 'text-amber-600 dark:text-amber-400';
-            case 'afternoon': return 'text-violet-600 dark:text-violet-400';
-            case 'night': return 'text-indigo-600 dark:text-indigo-400';
-            default: return 'text-zinc-400 dark:text-zinc-500';
+            case 'morning': return 'text-emerald-700 dark:text-emerald-300';
+            case 'afternoon': return 'text-orange-700 dark:text-orange-300';
+            case 'night': return 'text-indigo-700 dark:text-indigo-300';
+            default: return 'text-zinc-500 dark:text-zinc-400';
         }
     };
 
@@ -259,10 +262,17 @@ export function ShiftCard({ onNavigate }: ShiftCardProps) {
                                 </div>
                                 <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
                                     <span className="relative flex h-2 w-2">
-                                        <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${displayShiftInfo.isActive ? 'bg-emerald-400' : 'bg-amber-400'} opacity-75`}></span>
-                                        <span className={`relative inline-flex rounded-full h-2 w-2 ${displayShiftInfo.isActive ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+                                        <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${displayShiftInfo.status === 'active' ? 'bg-emerald-400' :
+                                            displayShiftInfo.status === 'completed' ? 'bg-blue-300' : 'bg-amber-400'
+                                            } opacity-75`}></span>
+                                        <span className={`relative inline-flex rounded-full h-2 w-2 ${displayShiftInfo.status === 'active' ? 'bg-emerald-500' :
+                                            displayShiftInfo.status === 'completed' ? 'bg-blue-400' : 'bg-amber-500'
+                                            }`}></span>
                                     </span>
-                                    <span className="text-white text-xs font-semibold">{displayShiftInfo.isActive ? 'Aktif' : 'Menunggu'}</span>
+                                    <span className="text-white text-xs font-semibold">
+                                        {displayShiftInfo.status === 'active' ? 'Aktif' :
+                                            displayShiftInfo.status === 'completed' ? 'Selesai' : 'Menunggu'}
+                                    </span>
                                 </div>
                             </div>
                             <div className="bg-black/10 backdrop-blur-sm rounded-2xl p-4 mb-4">
@@ -341,7 +351,7 @@ export function ShiftCard({ onNavigate }: ShiftCardProps) {
                         {weeklyShifts.map((item, index) => (
                             <button
                                 key={index}
-                                className={`relative flex flex-col items-center py-2.5 px-1 rounded-xl transition-all duration-300 hover:scale-105 overflow-hidden group/btn ${getShiftBgColor(item.shiftType, item.isSelected)} ${item.isSelected ? 'ring-2 ring-lime-400 ring-offset-2 dark:ring-offset-zinc-900 shadow-lg' : ''} ${item.isToday && !item.isSelected ? 'border border-lime-400/50' : ''}`}
+                                className={`relative flex flex-col items-center py-2.5 px-1 rounded-xl transition-all duration-300 hover:scale-105 border overflow-hidden group/btn ${getShiftBgColor(item.shiftType, item.isSelected)} ${item.isSelected ? 'ring-2 ring-lime-500 ring-offset-2 dark:ring-offset-zinc-900 shadow-xl z-20 scale-105 border-lime-500/50' : 'z-10'} ${item.isToday && !item.isSelected ? 'ring-1 ring-lime-400/50' : ''}`}
                                 onClick={() => setSelectedDate(item.fullDate)}
                             >
                                 {/* Micro Texture inside button */}
@@ -351,9 +361,9 @@ export function ShiftCard({ onNavigate }: ShiftCardProps) {
                                 />
 
                                 <div className="relative z-10 flex flex-col items-center">
-                                    {item.isToday && <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-lime-500" />}
-                                    <span className={`text-[9px] font-bold mb-0.5 uppercase tracking-tighter ${item.isSelected ? 'text-zinc-900' : 'text-zinc-500 dark:text-zinc-500'}`}>{item.dayName}</span>
-                                    <span className={`text-sm font-black mb-1 ${item.isSelected ? 'text-zinc-900' : 'text-zinc-950 dark:text-white'}`}>{item.date}</span>
+                                    {item.isToday && <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-lime-600 shadow-[0_0_8px_rgba(101,163,13,0.5)]" />}
+                                    <span className={`text-[9px] font-black mb-0.5 uppercase tracking-tighter ${item.isSelected ? 'text-zinc-950' : 'text-zinc-600 dark:text-zinc-400'}`}>{item.dayName}</span>
+                                    <span className={`text-sm font-black mb-1 ${item.isSelected ? 'text-zinc-950' : 'text-zinc-950 dark:text-white'}`}>{item.date}</span>
                                     <div className={`h-5 flex items-center justify-center ${getShiftTextColor(item.shiftType, item.isSelected)}`}>
                                         {item.shiftType !== 'off' ? getShiftIcon(item.shiftType) : <Umbrella className="w-3 h-3 opacity-40" />}
                                     </div>
@@ -367,18 +377,22 @@ export function ShiftCard({ onNavigate }: ShiftCardProps) {
 
             <div className="grid grid-cols-3 gap-2">
                 {[
-                    { type: 'morning', icon: Sun, color: 'amber', label: 'Shift Pagi', count: shiftStats.morning },
-                    { type: 'afternoon', icon: Sunset, color: 'violet', label: 'Shift Siang', count: shiftStats.afternoon },
+                    { type: 'morning', icon: Sun, color: 'emerald', label: 'Shift Pagi', count: shiftStats.morning },
+                    { type: 'afternoon', icon: Sunset, color: 'orange', label: 'Shift Siang', count: shiftStats.afternoon },
                     { type: 'night', icon: Moon, color: 'indigo', label: 'Shift Malam', count: shiftStats.night },
                 ].map((stat) => (
-                    <div key={stat.type} className={`bg-${stat.color}-50 dark:bg-${stat.color}-900/20 rounded-xl p-3 text-center border border-${stat.color}-100 dark:border-${stat.color}-800/30 relative overflow-hidden`}>
-                        <div className="absolute inset-0 opacity-[0.1] dark:opacity-[0.15] pointer-events-none bg-repeat" style={textureStyle} />
+                    <div key={stat.type} className={`bg-${stat.color}-100 dark:bg-white/[0.03] backdrop-blur-md rounded-2xl p-3 text-center border border-${stat.color}-200 dark:border-white/[0.08] relative overflow-hidden shadow-sm dark:shadow-none transition-all duration-300 group`}>
+                        {/* Background Texture - More prominent in dark mode as requested */}
+                        <div
+                            className="absolute inset-0 opacity-[0.1] dark:opacity-40 pointer-events-none bg-repeat mix-blend-overlay transition-opacity duration-300 group-hover:opacity-50"
+                            style={{ ...textureStyle, backgroundSize: '100px 100px' }}
+                        />
                         <div className="relative z-10 text-center">
-                            <div className="flex items-center justify-center gap-1 mb-1">
-                                <stat.icon className={`w-3.5 h-3.5 text-${stat.color}-500`} />
+                            <div className="flex items-center justify-center mb-1">
+                                <stat.icon className={`w-3.5 h-3.5 text-${stat.color}-600 dark:text-${stat.color}-400 group-hover:scale-110 transition-transform`} />
                             </div>
-                            <p className={`text-${stat.color}-950 dark:text-${stat.color}-400 text-xl font-black`}>{stat.count}</p>
-                            <p className={`text-${stat.color}-600 dark:text-${stat.color}-500 text-[10px] font-bold uppercase tracking-tighter`}>{stat.label}</p>
+                            <p className={`text-${stat.color}-500 dark:text-${stat.color}-400 text-3xl font-black tracking-tighter mb-0.5 drop-shadow-sm`}>{stat.count}</p>
+                            <p className={`text-zinc-950 dark:text-white/60 text-[10px] font-black uppercase tracking-tighter`}>{stat.label}</p>
                         </div>
                     </div>
                 ))}

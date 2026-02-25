@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Bell, Menu, Calendar, FileText, Briefcase, Users, LogOut } from 'lucide-react';
+import { Bell, Menu, Calendar, FileText, Briefcase, Users, LogOut, MapPin } from 'lucide-react';
 import { SidePanel } from './components/SidePanel';
 import { LoginPage } from './pages/LoginPage';
 import { HomePage } from './pages/HomePage';
 import { CalendarPage } from './pages/CalendarPage';
 import { PayslipPage } from './pages/PayslipPage';
-import { TeamPage } from './pages/TeamPage';
+import { BranchPage } from './pages/BranchPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { DocumentsPage } from './pages/DocumentsPage';
+import { Toaster } from 'sonner';
 import { LeavePage } from './pages/LeavePage';
 import { PermissionPage } from './pages/PermissionPage';
 import { ReimbursePage } from './pages/ReimbursePage';
@@ -15,6 +16,7 @@ import { AttendancePage } from './pages/AttendancePage';
 import { NotificationPage } from './pages/NotificationPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { ShiftPage } from './pages/ShiftPage';
+import { EditProfilePage } from './pages/EditProfilePage';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication state
@@ -74,10 +76,10 @@ export default function App() {
         return <CalendarPage />;
       case 'payslip':
         return <PayslipPage />;
-      case 'team':
-        return <TeamPage />;
+      case 'branch':
+        return <BranchPage />;
       case 'profile':
-        return <ProfilePage />;
+        return <ProfilePage onEdit={() => setCurrentPage('edit-profile')} />;
       case 'documents':
         return <DocumentsPage />;
       case 'leave':
@@ -92,6 +94,17 @@ export default function App() {
         return <NotificationPage onBack={() => setCurrentPage('home')} />;
       case 'settings':
         return <SettingsPage />;
+      case 'edit-profile':
+        return (
+          <EditProfilePage
+            onBack={() => setCurrentPage('profile')}
+            onSave={(data) => {
+              console.log('Saved:', data);
+              // In a real app, you'd update the global state or call an API here
+              setCurrentPage('profile');
+            }}
+          />
+        );
       case 'shift':
         return <ShiftPage />;
       default:
@@ -107,8 +120,8 @@ export default function App() {
         return { greeting: '', name: 'Kalender', subtitle: 'Jadwal & Event' };
       case 'payslip':
         return { greeting: '', name: 'Slip Gaji', subtitle: 'Riwayat Pembayaran' };
-      case 'team':
-        return { greeting: '', name: 'Tim', subtitle: 'Direktori Karyawan' };
+      case 'branch':
+        return { greeting: '', name: 'Branch', subtitle: 'Lokasi Cabang & Karyawan' };
       case 'profile':
         return { greeting: '', name: 'Profil', subtitle: 'Informasi Pribadi' };
       case 'documents':
@@ -127,6 +140,8 @@ export default function App() {
         return { greeting: '', name: 'Pengaturan', subtitle: 'Konfigurasi Aplikasi' };
       case 'shift':
         return { greeting: '', name: 'Jadwal Shift', subtitle: 'Lihat Shift Bulanan Anda' };
+      case 'edit-profile':
+        return { greeting: '', name: 'Edit Profil', subtitle: 'Kontak Darurat' };
       default:
         return { greeting: 'Selamat Pagi,', name: 'Budi Santoso', subtitle: 'Product Designer • Jakarta Office' };
     }
@@ -139,6 +154,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+      <Toaster position="top-center" expand={false} richColors />
       {/* Side Panel */}
       <SidePanel
         isOpen={isSidePanelOpen}
@@ -265,18 +281,18 @@ export default function App() {
                 </span>
               </button>
               <button
-                onClick={() => setCurrentPage('team')}
+                onClick={() => setCurrentPage('branch')}
                 className="flex flex-col items-center gap-1 py-2 px-4"
               >
-                <Users
-                  className={`w-5 h-5 ${currentPage === 'team' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                <MapPin
+                  className={`w-5 h-5 ${currentPage === 'branch' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
                     }`}
                 />
                 <span
-                  className={`text-[10px] ${currentPage === 'team' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
+                  className={`text-[10px] ${currentPage === 'branch' ? 'text-lime-600 dark:text-lime-400' : 'text-zinc-400 dark:text-zinc-600'
                     }`}
                 >
-                  Tim
+                  Branch
                 </span>
               </button>
             </div>

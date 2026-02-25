@@ -1,6 +1,6 @@
 import { User, Mail, Phone, MapPin, Calendar, Briefcase, CreditCard, Shield, Edit } from 'lucide-react';
 
-export function ProfilePage() {
+export function ProfilePage({ onEdit }: { onEdit: () => void }) {
   const profile = {
     name: 'Budi Santoso',
     employeeId: 'EMP-2023-001',
@@ -41,7 +41,10 @@ export function ProfilePage() {
             <div className="w-20 h-20 rounded-2xl bg-zinc-900/10 flex items-center justify-center">
               <span className="text-zinc-900 text-2xl font-bold">BS</span>
             </div>
-            <button className="w-10 h-10 rounded-xl bg-zinc-900/10 flex items-center justify-center hover:bg-zinc-900/20 transition-colors">
+            <button
+              onClick={onEdit}
+              className="w-10 h-10 rounded-xl bg-zinc-900/10 flex items-center justify-center hover:bg-zinc-900/20 transition-colors"
+            >
               <Edit className="w-5 h-5 text-zinc-900" />
             </button>
           </div>

@@ -189,3 +189,39 @@ export function isShiftActive(schedule: ShiftSchedule): boolean {
 
     return now >= startTime && now <= endTime;
 }
+
+/**
+ * Get the status of a shift based on current time
+ */
+export function getShiftStatus(schedule: ShiftSchedule, date: Date): 'active' | 'waiting' | 'completed' {
+    const now = new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const checkDate = new Date(date);
+    checkDate.setHours(0, 0, 0, 0);
+
+    if (checkDate < today) return 'completed';
+    if (checkDate > today) return 'waiting';
+
+    // It's today
+    const [startH, startM] = schedule.start_time.split(':').map(Number);
+    const [endH, endM] = schedule.end_time.split(':').map(Number);
+
+    const startTime = new Date(now);
+    startTime.setHours(startH, startM, 0, 0);
+
+    let endTime = new Date(now);
+    endTime.setHours(endH, endM, 0, 0);
+
+    // Handle cross-day (night shift)
+    if (endTime < startTime) {
+        if (now >= startTime || now <= endTime) return 'active';
+        // If it's after end_time but before start_time on the same calendar day
+        if (now > endTime && now < startTime) return 'waiting';
+    }
+
+    if (now < startTime) return 'waiting';
+    if (now > endTime) return 'completed';
+    return 'active';
+}
