@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LoginScreen } from './screens/LoginScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { LeaveRequestScreen } from './screens/LeaveRequestScreen';
+import { PayslipScreen } from './screens/PayslipScreen';
 import { BottomSheet } from './components/molecules/BottomSheet';
 import { ListItem } from './components/molecules/ListItem';
 import './styles/mobile.css';
@@ -79,6 +80,8 @@ export default function App() {
         return <HomeScreen onNavigate={handleNavigate} onOpenMenu={() => setIsMenuOpen(true)} onLogout={handleLogout} />;
       case 'leave':
         return <LeaveRequestScreen onBack={() => setCurrentScreen('home')} />;
+      case 'payslip':
+        return <PayslipScreen onBack={() => setCurrentScreen('home')} />;
       default:
         return <HomeScreen onNavigate={handleNavigate} onOpenMenu={() => setIsMenuOpen(true)} onLogout={handleLogout} />;
     }
